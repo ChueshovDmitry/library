@@ -1,0 +1,61 @@
+package com.senla.library.controller;
+
+import com.senla.library.dto.AuthorDTO;
+import com.senla.library.service.AuthorService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+
+@RequestMapping("/api/author")
+@RestController
+@Api(tags = "Author API")
+public class AuthorController {
+    private final AuthorService authorService;
+    
+    public AuthorController(AuthorService authorService) {
+        this.authorService = authorService;
+    }
+    
+    @ApiOperation("Add new data")
+    @PostMapping("/save")
+    public void save(@RequestBody AuthorDTO author) {
+        authorService.save(author);
+    }
+    
+    @ApiOperation("Delete based on primary key")
+    @GetMapping("/{id}")
+    public AuthorDTO findById(@PathVariable("id") Long id) {
+        Optional<AuthorDTO> dtoOptional = authorService.findById(id);
+        return dtoOptional.orElse(null);
+    }
+    
+    @ApiOperation("Find by Id")
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable("id") Long id) {
+        authorService.deleteById(id);
+    }
+    
+    @ApiOperation("Find all data")
+    @GetMapping("/list")
+    public List<AuthorDTO> list() {
+        return authorService.findAll();
+    }
+    
+    @ApiOperation("Pagination request")
+    @GetMapping("/page-query")
+    public Page<AuthorDTO> pageQuery(Pageable pageable) {
+        return authorService.findAll(pageable);
+    }
+    
+    @ApiOperation("Update one data")
+    @PutMapping("/update/{id}")
+    public AuthorDTO update(@RequestBody AuthorDTO dto) {
+        return authorService.updateById(dto);
+    }
+}
