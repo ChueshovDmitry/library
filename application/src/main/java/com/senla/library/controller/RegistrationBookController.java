@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api/registration-book")
+@RequestMapping("/api/registrations")
 @RestController
 @Api(tags = "RegistrationBook API")
 public class RegistrationBookController {
@@ -22,20 +22,20 @@ public class RegistrationBookController {
     }
     
     @ApiOperation("Add new data")
-    @PostMapping("/save")
+    @PostMapping("/registration/save")
     public void save(@RequestBody RegistrationBookDTO registrationBook) {
         registrationBookService.save(registrationBook);
     }
     
     @ApiOperation("Delete based on primary key")
-    @GetMapping("/{id}")
+    @GetMapping("/registration/{id}")
     public RegistrationBookDTO findById(@PathVariable("id") Long id) {
         Optional<RegistrationBookDTO> dtoOptional = registrationBookService.findById(id);
         return dtoOptional.orElse(null);
     }
     
     @ApiOperation("Find by Id")
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/registration/delete/{id}")
     public void delete(@PathVariable("id") Long id) {
         registrationBookService.deleteById(id);
     }
@@ -53,7 +53,7 @@ public class RegistrationBookController {
     }
     
     @ApiOperation("Update one data")
-    @PutMapping("/update/{id}")
+    @PutMapping("/registration/update/{id}")
     public RegistrationBookDTO update(@RequestBody RegistrationBookDTO dto) {
         return registrationBookService.updateById(dto);
     }

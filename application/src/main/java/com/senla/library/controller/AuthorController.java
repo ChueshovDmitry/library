@@ -7,12 +7,10 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api/author")
+@RequestMapping("/api/authors")
 @RestController
 @Api(tags = "Author API")
 public class AuthorController {
@@ -23,20 +21,20 @@ public class AuthorController {
     }
     
     @ApiOperation("Add new data")
-    @PostMapping("/save")
+    @PostMapping("/author/save")
     public void save(@RequestBody AuthorDTO author) {
         authorService.save(author);
     }
     
     @ApiOperation("Delete based on primary key")
-    @GetMapping("/{id}")
+    @GetMapping("/author/{id}")
     public AuthorDTO findById(@PathVariable("id") Long id) {
         Optional<AuthorDTO> dtoOptional = authorService.findById(id);
         return dtoOptional.orElse(null);
     }
     
     @ApiOperation("Find by Id")
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/author/delete/{id}")
     public void delete(@PathVariable("id") Long id) {
         authorService.deleteById(id);
     }
@@ -54,7 +52,7 @@ public class AuthorController {
     }
     
     @ApiOperation("Update one data")
-    @PutMapping("/update/{id}")
+    @PutMapping("/author/update/{id}")
     public AuthorDTO update(@RequestBody AuthorDTO dto) {
         return authorService.updateById(dto);
     }

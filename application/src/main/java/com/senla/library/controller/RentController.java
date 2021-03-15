@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api/rent")
+@RequestMapping("/api/rents")
 @RestController
 @Api(tags = "Rent API")
 public class RentController {
@@ -22,20 +22,20 @@ public class RentController {
     }
     
     @ApiOperation("Add new data")
-    @PostMapping("/save")
+    @PostMapping("/rent/save")
     public void save(@RequestBody RentDTO rent) {
         rentService.save(rent);
     }
     
     @ApiOperation("Delete based on primary key")
-    @GetMapping("/{id}")
+    @GetMapping("/rent/{id}")
     public RentDTO findById(@PathVariable("id") Long id) {
         Optional<RentDTO> dtoOptional = rentService.findById(id);
         return dtoOptional.orElse(null);
     }
     
     @ApiOperation("Find by Id")
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/rent/delete/{id}")
     public void delete(@PathVariable("id") Long id) {
         rentService.deleteById(id);
     }
@@ -53,7 +53,7 @@ public class RentController {
     }
     
     @ApiOperation("Update one data")
-    @PutMapping("/update/{id}")
+    @PutMapping("/rent/update/{id}")
     public RentDTO update(@RequestBody RentDTO dto) {
         return rentService.updateById(dto);
     }

@@ -1,9 +1,14 @@
 package com.senla.library.controller;
 
 import com.senla.library.dto.UserDTO;
+import com.senla.library.entity.User;
+import com.senla.library.security.jwt.JwtProvider;
+import com.senla.library.security.сonfig.AuthRequest;
+import com.senla.library.security.сonfig.AuthResponse;
 import com.senla.library.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -11,33 +16,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api/user")
+@RequestMapping("/users/")
 @RestController
 @Api(tags = "User API")
 public class UserController {
+    
     private final UserService userService;
     
-    public UserController(UserService userService) {
+    private JwtProvider jwtProvider;
+    
+    public UserController(UserService userService,JwtProvider jwtProvider) {
         this.userService = userService;
+        this.jwtProvider = jwtProvider;
     }
     
     @ApiOperation("Add new data")
-    @PostMapping("/save")
+    @PostMapping("/user/register")
     public void save(@RequestBody UserDTO user) {
         userService.save(user);
     }
-    
-//    @ApiOperation("Delete based on primary key")
-//    @GetMapping("/{id}")
-//    public UserDTO findById(@PathVariable("id") Long id) {
-//        Optional<UserDTO> dtoOptional = userService.findById(id);
-//        return dtoOptional.orElse(null);}
-    
-//    @ApiOperation("Find by Id")
-//    @DeleteMapping("/delete/{id}")
-//    public void delete(@PathVariable("id") Long id) {
-//        userService.deleteById(id);
-//    }
+  
+    @PostMapping("/user/auth")
+    public AuthResponse auth(@RequestBody AuthRequest request) {
+        User userEntity = userService.findByLoginAndPassword(request.getLogin(), request.getPassword());
+        String token = jwtProvider.generateToken(userEntity.getLogin());
+        return new AuthResponse(token);
+    }
     
     @ApiOperation("Find all data")
     @GetMapping("/list")
@@ -45,15 +49,11 @@ public class UserController {
         return userService.findAll();
     }
     
+    
     @ApiOperation("Pagination request")
     @GetMapping("/page-query")
     public Page<UserDTO> pageQuery(Pageable pageable) {
         return userService.findAll(pageable);
     }
     
-//    @ApiOperation("Update one data")
-//    @PutMapping("/update/{id}")
-//    public UserDTO update(@RequestBody UserDTO dto) {
-//        return userService.updateById(dto);
-//    }
 }
