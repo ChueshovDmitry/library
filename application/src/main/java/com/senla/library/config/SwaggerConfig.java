@@ -1,4 +1,4 @@
-package com.senla.library;
+package com.senla.library.config;
 
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.builders.ApiInfoBuilder;

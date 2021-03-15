@@ -1,4 +1,4 @@
-package com.senla.library;
+package com.senla.library.config;
 
 import com.senla.library.security.jwt.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
