@@ -8,9 +8,12 @@ import com.senla.library.security.сonfig.AuthResponse;
 import com.senla.library.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("/users/")
@@ -18,10 +21,11 @@ import java.util.List;
 @Api(tags = "User API")
 public class UserController {
     
-    private final UserService userService;
+    private UserService userService;
     
     private JwtProvider jwtProvider;
     
+    @Autowired
     public UserController(UserService userService,JwtProvider jwtProvider) {
         this.userService = userService;
         this.jwtProvider = jwtProvider;
@@ -32,11 +36,11 @@ public class UserController {
     public void save(@RequestBody UserDTO user) {
         userService.save(user);
     }
-  
-    @PostMapping("/user/auth")
-    public AuthResponse auth(@RequestBody AuthRequest request) {
-        User userEntity = userService.findByLoginAndPassword(request.getLogin(), request.getPassword());
-        String token = jwtProvider.generateToken(userEntity.getLogin());
+    
+    @PostMapping("user/auth")
+    public AuthResponse auth(@RequestBody UserDTO request) {
+        User byLoginAndPassword = userService.findByLoginAndPassword(request.getLogin(),request.getPassword());
+        String token = jwtProvider.generateToken(byLoginAndPassword.getLogin());
         return new AuthResponse(token);
     }
     

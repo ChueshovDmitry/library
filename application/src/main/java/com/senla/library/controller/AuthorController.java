@@ -1,9 +1,9 @@
 package com.senla.library.controller;
-
 import com.senla.library.dto.AuthorDTO;
 import com.senla.library.service.AuthorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +14,10 @@ import java.util.Optional;
 @RestController
 @Api(tags = "Author API")
 public class AuthorController {
+    
     private final AuthorService authorService;
     
+    @Autowired
     public AuthorController(AuthorService authorService) {
         this.authorService = authorService;
     }
@@ -45,11 +47,13 @@ public class AuthorController {
         return authorService.findAll();
     }
     
+    
     @ApiOperation("Pagination request")
     @GetMapping("/page-query")
     public Page<AuthorDTO> pageQuery(Pageable pageable) {
         return authorService.findAll(pageable);
     }
+    
     
     @ApiOperation("Update one data")
     @PutMapping("/author/update/{id}")

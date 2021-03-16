@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface UserService {
     
-    UserDTO save(UserDTO dto);
+    UserDTO userRegistration(UserDTO dto);
     
     List<UserDTO> findAll();
     

@@ -1,4 +1,4 @@
-package com.senla.library.security.сonfig;
+package com.javamaster.springsecurityjwt.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

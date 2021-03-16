@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api/books")
+@RequestMapping("/api/book")
 @RestController
 @Api(tags = "Book API")
 public class BookController {
@@ -22,20 +22,20 @@ public class BookController {
     }
     
     @ApiOperation("Add new data")
-    @PostMapping("/book/save")
+    @PostMapping("/save")
     public void save(@RequestBody BookDTO book) {
         bookService.save(book);
     }
     
     @ApiOperation("Delete based on primary key")
-    @GetMapping("/book/{id}")
+    @GetMapping("/{id}")
     public BookDTO findById(@PathVariable("id") Long id) {
         Optional<BookDTO> dtoOptional = bookService.findById(id);
         return dtoOptional.orElse(null);
     }
     
     @ApiOperation("Find by Id")
-    @DeleteMapping("/book/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") Long id) {
         bookService.deleteById(id);
     }
@@ -53,7 +53,7 @@ public class BookController {
     }
     
     @ApiOperation("Update one data")
-    @PutMapping("/book/update/{id}")
+    @PutMapping("/update/{id}")
     public BookDTO update(@RequestBody BookDTO dto) {
         return bookService.updateById(dto);
     }

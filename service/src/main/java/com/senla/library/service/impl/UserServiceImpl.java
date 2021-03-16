@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
@@ -17,27 +20,27 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
     
-    private final UserMapper mapper;
-
+    private  final UserMapper mapper;
+    
+    private  PasswordEncoder passwordEncoder;
+    
     private final RoleRepository roleRepository;
     
     private final UserRepository repository;
     
-    private  PasswordEncoder passwordEncoder;
     
-    public UserServiceImpl(UserMapper mapper,RoleRepository roleRepository,UserRepository repository,
-                           PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserMapper mapper,PasswordEncoder passwordEncoder,RoleRepository roleRepository,
+                           UserRepository repository) {
         this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
         this.repository = repository;
-        this.passwordEncoder = passwordEncoder;
     }
     
     @Override
-    public UserDTO save(UserDTO dto) {
+    public UserDTO userRegistration (UserDTO dto) {
         User user = new User();
         user.setLogin(dto.getLogin());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -70,4 +73,5 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+    
 }

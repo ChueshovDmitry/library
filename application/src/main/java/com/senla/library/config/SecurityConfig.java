@@ -1,6 +1,5 @@
 package com.senla.library.config;
-
-import com.senla.library.security.jwt.JwtFilter;
+import com.senla.library.security.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,16 +8,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/**
- * @author Dmitry Chueshov 05.03.2021 14:13
- * @project library
- */
-
-
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
     @Autowired
     private JwtFilter jwtFilter;
+    
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -28,9 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/admin/*").hasRole("ADMIN")
-                .antMatchers("/user/*").hasRole("USER")
-                .antMatchers("/users/user/register").permitAll()
+//                .antMatchers("/admin/*").hasRole("ADMIN")
+//                .antMatchers("/users/*").hasRole("USER")
+                .antMatchers("/*").permitAll()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }

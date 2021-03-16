@@ -3,21 +3,27 @@ import com.senla.library.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.Collections;
 
 public class CustomUserDetails implements UserDetails {
 
     private String login;
+    
     private String password;
+    
     private Collection<? extends GrantedAuthority> grantedAuthorities;
 
     public static CustomUserDetails fromUserEntityToCustomUserDetails(User user) {
+        
         CustomUserDetails customUserDetails = new CustomUserDetails();
+        
         customUserDetails.login = user.getLogin();
+        
         customUserDetails.password = user.getPassword();
+        
         customUserDetails.grantedAuthorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRoleEntity().getName()));
+        
         return customUserDetails;
     }
 

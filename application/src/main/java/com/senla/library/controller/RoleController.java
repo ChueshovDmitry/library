@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api/roles")
+@RequestMapping("/api/role")
 @RestController
 @Api(tags = "Role API")
 public class RoleController {
@@ -22,20 +22,20 @@ public class RoleController {
     }
     
     @ApiOperation("Add new data")
-    @PostMapping("/role/save")
+    @PostMapping("/save")
     public void save(@RequestBody RoleDTO role) {
         roleService.save(role);
     }
     
     @ApiOperation("Delete based on primary key")
-    @GetMapping("/role/{id}")
+    @GetMapping("/{id}")
     public RoleDTO findById(@PathVariable("id") Long id) {
         Optional<RoleDTO> dtoOptional = roleService.findById(id);
         return dtoOptional.orElse(null);
     }
     
     @ApiOperation("Find by Id")
-    @DeleteMapping("/role/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") Long id) {
         roleService.deleteById(id);
     }
@@ -53,7 +53,7 @@ public class RoleController {
     }
     
     @ApiOperation("Update one data")
-    @PutMapping("/role/update/{id}")
+    @PutMapping("/update/{id}")
     public RoleDTO update(@RequestBody RoleDTO dto) {
         return roleService.updateById(dto);
     }

@@ -12,20 +12,23 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-
 import static org.springframework.util.StringUtils.hasText;
 
 @Component
 public class JwtFilter extends GenericFilterBean {
 
     public static final String AUTHORIZATION = "Authorization";
-
-    @Autowired
+    
     private JwtProvider jwtProvider;
-
-    @Autowired
+    
     private CustomUserDetailsService customUserDetailsService;
-
+ 
+    @Autowired
+    public JwtFilter(JwtProvider jwtProvider,CustomUserDetailsService customUserDetailsService) {
+        this.jwtProvider = jwtProvider;
+        this.customUserDetailsService = customUserDetailsService;
+    }
+    
     @Override
     public void doFilter(ServletRequest servletRequest,ServletResponse servletResponse,FilterChain filterChain) throws IOException, ServletException {
         logger.info("do filter...");
@@ -39,6 +42,7 @@ public class JwtFilter extends GenericFilterBean {
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
+    
     private String getTokenFromRequest(HttpServletRequest request) {
         String bearer = request.getHeader(AUTHORIZATION);
         if (hasText(bearer) && bearer.startsWith("Bearer ")) {

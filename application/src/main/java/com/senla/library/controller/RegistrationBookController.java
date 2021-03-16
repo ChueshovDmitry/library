@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api/registrations")
+
+@RequestMapping("/api/registration-book")
 @RestController
 @Api(tags = "RegistrationBook API")
 public class RegistrationBookController {
