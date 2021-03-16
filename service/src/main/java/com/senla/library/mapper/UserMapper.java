@@ -10,14 +10,14 @@ import org.mapstruct.Mappings;
 public interface UserMapper extends EntityMapper<UserDTO, User> {
     
     @Override
-    @Mappings({@Mapping(source = "id", target = "id"),
+    @Mappings({
             @Mapping(source = "login", target = "login"),
             @Mapping(source = "password", target = "password")
             })
     User toEntity(UserDTO dto);
     
     @Override
-    @Mappings({@Mapping(source = "id", target = "id"),
+    @Mappings({
             @Mapping(source = "login", target = "login"),
             @Mapping(source = "password", target = "password"),
            })

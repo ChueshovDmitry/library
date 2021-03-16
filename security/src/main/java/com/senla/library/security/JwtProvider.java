@@ -1,4 +1,4 @@
-package com.senla.library.security.jwt;
+package com.senla.library.security;
 
 
 import io.jsonwebtoken.Claims;

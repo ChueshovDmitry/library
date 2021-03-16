@@ -1,4 +1,4 @@
-package com.senla.library.configuration;
+package com.senla.library.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

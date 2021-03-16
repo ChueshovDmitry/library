@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class RegistrationBookServiceImpl implements RegistrationBookService {
     
     private final RegistrationBookMapper mapper;

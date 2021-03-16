@@ -1,6 +1,5 @@
-package com.senla.library.security.jwt;
-import com.senla.library.security.CustomUserDetails;
-import com.senla.library.security.CustomUserDetailsService;
+package com.senla.library.security;
+import io.jsonwebtoken.Jws;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,17 +20,17 @@ public class JwtFilter extends GenericFilterBean {
     
     private JwtProvider jwtProvider;
     
-    private CustomUserDetailsService customUserDetailsService;
- 
+    private JwtUserDetailsService customUserDetailsService;
+    
     @Autowired
-    public JwtFilter(JwtProvider jwtProvider,CustomUserDetailsService customUserDetailsService) {
+    public JwtFilter(JwtProvider jwtProvider,JwtUserDetailsService customUserDetailsService) {
         this.jwtProvider = jwtProvider;
         this.customUserDetailsService = customUserDetailsService;
     }
     
     @Override
     public void doFilter(ServletRequest servletRequest,ServletResponse servletResponse,FilterChain filterChain) throws IOException, ServletException {
-        logger.info("do filter...");
+//        logger.info("do filter...");
         String token = getTokenFromRequest((HttpServletRequest) servletRequest);
         if (token != null && jwtProvider.validateToken(token)) {
             String userLogin = jwtProvider.getLoginFromToken(token);

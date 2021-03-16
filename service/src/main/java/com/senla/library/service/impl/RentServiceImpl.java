@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class RentServiceImpl implements RentService {
     
     private RentMapper mapper;
@@ -69,5 +68,10 @@ public class RentServiceImpl implements RentService {
             return save(dto);
         }
         return null;
+    }
+    
+    @Override
+    public List<RentDTO> getAllByOverdueDate() {
+        return mapper.toDtoList((List<Rent>) repository.getAllByOverdueDate());
     }
 }

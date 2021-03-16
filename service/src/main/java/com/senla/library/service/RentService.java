@@ -15,9 +15,11 @@ public interface RentService {
     
     Optional<RentDTO> findById(Long id);
     
-    List<RentDTO> findAll();
+    List <RentDTO> findAll();
     
     Page<RentDTO> findAll(Pageable pageable);
     
     RentDTO updateById(RentDTO dto);
+    
+    List <RentDTO> getAllByOverdueDate();
 }
