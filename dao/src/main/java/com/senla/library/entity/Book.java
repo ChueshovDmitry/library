@@ -20,7 +20,6 @@ public class Book implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    
     @Column(nullable = false,
             unique = false,
             length = 100)

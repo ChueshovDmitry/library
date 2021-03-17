@@ -5,7 +5,6 @@ import com.senla.library.entity.Role;
 import com.senla.library.mapper.RoleMapper;
 import com.senla.library.repository.RoleRepository;
 import com.senla.library.service.RoleService;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

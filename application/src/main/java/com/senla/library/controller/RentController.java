@@ -57,4 +57,6 @@ public class RentController {
     public RentDTO update(@RequestBody RentDTO dto) {
         return rentService.updateById(dto);
     }
+    
+    
 }
