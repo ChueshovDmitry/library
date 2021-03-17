@@ -59,6 +59,7 @@ public class AuthorServiceImpl implements AuthorService {
         return new PageImpl<>(dtos,pageable,entityPage.getTotalElements());
     }
     
+    
     @Override
     public AuthorDTO updateById(AuthorDTO dto) {
         Optional<AuthorDTO> optionalDto = findById(dto.getId());

@@ -16,7 +16,6 @@ public class AuthorDTO {
     
     private Long id;
     
-
     private String surname;
 
     private String initials;

@@ -31,7 +31,7 @@ public class BookController {
     @GetMapping("/{id}")
     public BookDTO findById(@PathVariable("id") Long id) {
         Optional<BookDTO> dtoOptional = bookService.findById(id);
-        return dtoOptional.orElse(null);
+        return dtoOptional.get();
     }
     
     @ApiOperation("Find by Id")

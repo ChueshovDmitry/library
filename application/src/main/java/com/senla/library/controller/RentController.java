@@ -58,5 +58,4 @@ public class RentController {
         return rentService.updateById(dto);
     }
     
-    
 }

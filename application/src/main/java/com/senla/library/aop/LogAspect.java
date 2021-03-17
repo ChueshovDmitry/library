@@ -24,28 +24,30 @@ public class LogAspect {
     
     private static final String SPACE = " ";
     
+    private ObjectMapper objectMapper;
     
     @AfterThrowing( pointcut = "execution ( public * com.senla.library.controller.*.*(..))", throwing = "exception" )
     public void loggingExceptionControllerLayer(JoinPoint joinPoint, Exception exception) {
-        
-        Logger logger = getLogger(joinPoint.getTarget().getClass());
-        
-        ObjectMapper objectMapper = new ObjectMapper();
-        
-        StringBuilder builder  = new StringBuilder();
-        
+    
+        Logger logger;
+    
+        StringBuilder builder = new StringBuilder();
+    
+        logger = getLogger(joinPoint.getTarget().getClass());
+    
+        objectMapper = new ObjectMapper();
+    
         builder.append(joinPoint.getSignature()).append(SPACE);
         builder.append(joinPoint.getArgs().length).append(SPACE);
         builder.append(joinPoint.getSignature().getName()).append(SPACE);
         builder.append(exception.getMessage()).append(SPACE);
-        
+    
         try{
             builder.append(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(joinPoint.getArgs())).append(SPACE);
             logger.error(builder.toString());
-    
+        
         } catch(JsonProcessingException e){
             logger.error(e.getMessage());
         }
     }
-    
 }
