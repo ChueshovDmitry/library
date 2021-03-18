@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +47,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Optional<BookDTO> findById(Long id) {
         Optional<Book> entityOptional = repository.findById(id);
-        return entityOptional.map(entity -> Optional.ofNullable(mapper.toDto(entity)).orElse(null));
+      return entityOptional.map(entity -> Optional.ofNullable(mapper.toDto(entity)).get());
     }
     
     @Override

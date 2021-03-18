@@ -1,6 +1,6 @@
 package com.senla.library.controller;
-
 import com.senla.library.dto.RegistrationBookDTO;
+import com.senla.library.service.exception.ResourceNotFoundException;
 import com.senla.library.service.RegistrationBookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,14 +25,22 @@ public class RegistrationBookController {
     @ApiOperation("Add new data")
     @PostMapping("/registration/save")
     public void save(@RequestBody RegistrationBookDTO registrationBook) {
-        registrationBookService.save(registrationBook);
+        try{
+            registrationBookService.save(registrationBook);
+        } catch(RuntimeException e){
+            throw new ResourceNotFoundException("Failed in add new data");
+        }
     }
     
     @ApiOperation("Delete based on primary key")
     @GetMapping("/registration/{id}")
     public RegistrationBookDTO findById(@PathVariable("id") Long id) {
         Optional<RegistrationBookDTO> dtoOptional = registrationBookService.findById(id);
-        return dtoOptional.orElse(null);
+        if(dtoOptional!=null){
+            return dtoOptional.get();
+        }else {
+            throw new ResourceNotFoundException("Failed to delete by primary key");
+        }
     }
     
     @ApiOperation("Find by Id")

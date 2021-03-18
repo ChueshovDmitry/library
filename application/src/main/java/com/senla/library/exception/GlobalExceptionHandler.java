@@ -1,11 +1,12 @@
 package com.senla.library.exception;
+import com.senla.library.service.exception.ResourceDuplicationException;
+import com.senla.library.service.exception.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
-import java.util.NoSuchElementException;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -25,6 +26,16 @@ public class GlobalExceptionHandler {
                 ,NOT_FOUND
                 ,NOT_FOUND.value());
         return new ResponseEntity<>(errorDetails, NOT_FOUND);
+    }
+    
+    @ExceptionHandler(ResourceDuplicationException.class)
+    public ResponseEntity <?> ResourceDuplicationException(ResourceDuplicationException exception, WebRequest request){
+        ErrorDetails errorDetails = new ErrorDetails(new Date(),
+                exception.getMessage()
+                ,request.getDescription(false)
+                ,CONFLICT
+                ,CONFLICT.value());
+        return new ResponseEntity<>(errorDetails, CONFLICT);
     }
     
     @ExceptionHandler(Exception.class)

@@ -1,7 +1,7 @@
 package com.senla.library.controller;
 
 import com.senla.library.dto.BookDTO;
-import com.senla.library.exception.ResourceNotFoundException;
+import com.senla.library.service.exception.ResourceNotFoundException;
 import com.senla.library.service.BookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

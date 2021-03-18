@@ -4,13 +4,17 @@ import com.senla.library.repository.AuthorRepository;
 import com.senla.library.entity.Author;
 import com.senla.library.dto.AuthorDTO;
 import com.senla.library.service.AuthorService;
+import com.senla.library.service.exception.ResourceDuplicationException;
+import com.senla.library.service.exception.ResourceNotFoundException;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
+
 
 
 @Service
@@ -28,28 +32,52 @@ public class AuthorServiceImpl implements AuthorService {
     
     @Override
     public AuthorDTO save(AuthorDTO dto) {
-        return mapper.toDto(repository.save(mapper.toEntity(dto)));
+        Author author = mapper.toEntity(dto);
+        if(repository.existsBySurnameAndInitials(author.getSurname(),author.getInitials())) {
+            throw new ResourceDuplicationException("CONFLICT, error saving data, " +
+                    "the database contains such data");
+        }else{
+            return mapper.toDto(repository.save(author));
+        }
     }
     
     @Override
     public void save(List<AuthorDTO> dtos) {
-        repository.saveAll(mapper.toEntityList(dtos));
+        List<Author> authors = mapper.toEntityList(dtos);
+        authors.forEach(author -> {
+            if(repository.existsBySurnameAndInitials(author.getSurname(),author.getInitials())){
+                throw new ResourceDuplicationException("CONFLICT, error saving data, " + "the database contains such " +
+                        "data" + author.toString());
+            } else {
+                repository.save(author);
+            }
+        });
     }
     
     @Override
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        if(repository.existsById(id)){
+            repository.deleteById(id);
+        } else {
+                throw new ResourceNotFoundException("Failed to delete by primary key ");
+        }
     }
     
     @Override
-    public Optional<AuthorDTO> findById(Long id) {
-        Optional<Author> entityOptional = repository.findById(id);
-        return entityOptional.map(author -> Optional.ofNullable(mapper.toDto(author))).orElse(null);
+    public AuthorDTO findById(Long id) {
+        return mapper.toDto(repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Author by id not found")));
     }
     
     @Override
-    public List<AuthorDTO> findAll() {
-        return mapper.toDtoList((List<Author>) repository.findAll());
+    public List <AuthorDTO> findAll() {
+        Iterable<Author> all = repository.findAll();
+        List<Author>authors = (List<Author>) all;
+        if(authors.isEmpty()){
+            throw new ResourceNotFoundException("Authors not found");
+    }else {
+            return mapper.toDtoList(authors);
+        }
     }
     
     
@@ -62,11 +90,11 @@ public class AuthorServiceImpl implements AuthorService {
     
     
     @Override
-    public AuthorDTO updateById(AuthorDTO dto) {
+    public AuthorDTO updateById(AuthorDTO dto){
        if(repository.existsById(dto.getId())) {
            return save(dto);
        }else {
-           return null;
+           throw new ResourceNotFoundException("update failed no record with this id");
        }
     }
 }
