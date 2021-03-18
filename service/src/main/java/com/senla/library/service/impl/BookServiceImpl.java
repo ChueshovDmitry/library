@@ -46,7 +46,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Optional<BookDTO> findById(Long id) {
         Optional<Book> entityOptional = repository.findById(id);
-        return entityOptional.map(entity -> Optional.ofNullable(mapper.toDto(entity))).orElse(null);
+        return entityOptional.map(entity -> Optional.ofNullable(mapper.toDto(entity)).orElse(null));
     }
     
     @Override
@@ -63,8 +63,7 @@ public class BookServiceImpl implements BookService {
     
     @Override
     public BookDTO updateById(BookDTO dto) {
-        Optional<BookDTO> optionalDto = findById(dto.getId());
-        if(optionalDto.isPresent()){
+        if(repository.existsById(dto.getId())){
             return save(dto);
         }
         return null;

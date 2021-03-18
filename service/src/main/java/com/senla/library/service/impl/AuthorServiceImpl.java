@@ -44,13 +44,14 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Optional<AuthorDTO> findById(Long id) {
         Optional<Author> entityOptional = repository.findById(id);
-        return entityOptional.map(entity -> Optional.ofNullable(mapper.toDto(entity))).orElse(null);
+        return entityOptional.map(author -> Optional.ofNullable(mapper.toDto(author))).orElse(null);
     }
     
     @Override
     public List<AuthorDTO> findAll() {
         return mapper.toDtoList((List<Author>) repository.findAll());
     }
+    
     
     @Override
     public Page<AuthorDTO> findAll(Pageable pageable) {
@@ -62,10 +63,10 @@ public class AuthorServiceImpl implements AuthorService {
     
     @Override
     public AuthorDTO updateById(AuthorDTO dto) {
-        Optional<AuthorDTO> optionalDto = findById(dto.getId());
-        if(optionalDto.isPresent()){
-            return save(dto);
-        }
-        return null;
+       if(repository.existsById(dto.getId())) {
+           return save(dto);
+       }else {
+           return null;
+       }
     }
 }

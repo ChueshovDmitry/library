@@ -18,7 +18,7 @@ public class Author implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(length = 40)
+    @Column(length = 40,unique = true)
     private String surname;
     
     @Column(length = 5)

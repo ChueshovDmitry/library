@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -35,6 +36,17 @@ public class GlobalExceptionHandler {
                         ,INTERNAL_SERVER_ERROR,INTERNAL_SERVER_ERROR.value());
         return new ResponseEntity<>(errorDetails, INTERNAL_SERVER_ERROR);
     }
+    
+//    @ExceptionHandler(NoSuchElementException.class)
+//    public ResponseEntity<?> globalExceptionHandlingNoSuchElement(NoSuchElementException exception, WebRequest request){
+//        ErrorDetails errorDetails =
+//                new ErrorDetails(new Date()
+//                        ,exception.getMessage()
+//                        ,request.getDescription(false)
+//                        ,NOT_FOUND,NOT_FOUND.value());
+//        return new ResponseEntity<>(errorDetails, NOT_FOUND);
+//    }
+    
 
 }
 
