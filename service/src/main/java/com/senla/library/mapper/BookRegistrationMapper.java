@@ -14,7 +14,9 @@ public interface BookRegistrationMapper extends EntityMapper<BookRegistrationDTO
     @Mappings({
             @Mapping(source="id",target ="id" ),
             @Mapping(source="registrationDate",target ="registrationDate"),
-            @Mapping(source ="book",target = "book")
+            @Mapping(source ="book",target = "book"),
+            @Mapping(source = "accountNumber", target = "accountNumber"),
+            @Mapping(source = "status",target = "status")
     })
     BookRegistration toEntity(BookRegistrationDTO dto);
     
@@ -22,7 +24,10 @@ public interface BookRegistrationMapper extends EntityMapper<BookRegistrationDTO
     @Mappings({
             @Mapping(source="id",target ="id" ),
             @Mapping(source="registrationDate",target ="registrationDate"),
-            @Mapping(source ="book",target = "book")
+            @Mapping(source ="book",target = "book"),
+            @Mapping(source = "accountNumber", target = "accountNumber"),
+            @Mapping(source = "status",target = "status")
+            
     })
     BookRegistrationDTO toDto(BookRegistration entity);
     

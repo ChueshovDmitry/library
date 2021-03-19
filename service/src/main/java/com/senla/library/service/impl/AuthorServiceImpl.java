@@ -41,19 +41,6 @@ public class AuthorServiceImpl implements AuthorService {
     }
     
     @Override
-    public void save(List<AuthorDTO> dtos) {
-        List<Author> authors = mapper.toEntityList(dtos);
-        authors.forEach(author -> {
-            if(repository.existsBySurnameAndInitials(author.getSurname(),author.getInitials())){
-                throw new ResourceDuplicationException("CONFLICT, error saving data, " + "the database contains such " +
-                        "data" + author.toString());
-            } else {
-                repository.save(author);
-            }
-        });
-    }
-    
-    @Override
     public void deleteById(Long id) {
         if(repository.existsById(id)){
             repository.deleteById(id);

@@ -25,63 +25,36 @@ public class BookController {
     @ApiOperation("Add new data")
     @PostMapping("/save")
     public void save(@RequestBody BookDTO book) {
-        try{
-            bookService.save(book);
-        } catch(RuntimeException e){
-           throw new ResourceNotFoundException("Failed in add new data");
-        }
+       bookService.save(book);
     }
     
     @ApiOperation("Delete based on primary key")
     @GetMapping("/{id}")
     public BookDTO findById(@PathVariable("id") Long id) {
-        Optional<BookDTO> dtoOptional = bookService.findById(id);
-        if(dtoOptional != null){
-            return dtoOptional.get();
-        } else {
-            throw new ResourceNotFoundException("Failed in find by Id");
-        }
+        return bookService.findById(id);
     }
     
     @ApiOperation("Find by Id")
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") Long id) {
-        try{
-            bookService.deleteById(id);
-        } catch(RuntimeException e){
-            throw new ResourceNotFoundException("Failed to delete by primary key");        }
-    
+        bookService.deleteById(id);
     }
     
     @ApiOperation("Find all data")
     @GetMapping("/list")
     public List<BookDTO> list() {
-        try{
-            return bookService.findAll();
-        } catch(RuntimeException e){
-            throw new ResourceNotFoundException("Failed in find all data");
-        }
+        return bookService.findAll();
     }
     
     @ApiOperation("Pagination request")
     @GetMapping("/page-query")
     public Page<BookDTO> pageQuery(Pageable pageable) {
-        Page<BookDTO> all = bookService.findAll(pageable);
-        if(all.isEmpty()){
-            throw new ResourceNotFoundException("Not have result for you");
-        }else {
-            return all;
-        }
+        return bookService.findAll(pageable);
     }
     
     @ApiOperation("Update one data")
     @PutMapping("/update/{id}")
     public BookDTO update(@RequestBody BookDTO dto) {
-        BookDTO bookDTO = bookService.updateById(dto);
-        if(bookDTO!=null){
-            return bookDTO;
-        } else {
-            throw new ResourceNotFoundException("Failed update data");
-        }
+       return bookService.updateById(dto);
     }
 }

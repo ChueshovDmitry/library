@@ -10,8 +10,6 @@ public interface RentService {
     
     RentDTO save(RentDTO dto);
     
-    void save(List<RentDTO> dtos);
-    
     void deleteById(Long id);
     
     RentDTO findById(Long id);

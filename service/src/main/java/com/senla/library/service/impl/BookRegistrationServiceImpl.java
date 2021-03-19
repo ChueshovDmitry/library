@@ -1,9 +1,12 @@
 package com.senla.library.service.impl;
 import com.senla.library.dto.BookRegistrationDTO;
+import com.senla.library.entity.Author;
 import com.senla.library.entity.BookRegistration;
 import com.senla.library.mapper.BookRegistrationMapper;
 import com.senla.library.repository.RegistrationBookRepository;
 import com.senla.library.service.BookRegistrationService;
+import com.senla.library.service.exception.ResourceDuplicationException;
+import com.senla.library.service.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,31 +30,33 @@ public class BookRegistrationServiceImpl implements BookRegistrationService {
         this.repository = repository;
     }
     
-    @Override
-    public BookRegistrationDTO save(BookRegistrationDTO dto) {
-        return mapper.toDto(repository.save(mapper.toEntity(dto)));
-    }
     
     @Override
-    public void save(List<BookRegistrationDTO> dtos) {
-        repository.saveAll(mapper.toEntityList(dtos));
+    public BookRegistrationDTO save(BookRegistrationDTO dto) {
+        BookRegistration bookRegistration = mapper.toEntity(dto);
+        if(repository.existsByAccountNumber(bookRegistration.getAccountNumber())) {
+            throw new ResourceDuplicationException("CONFLICT, in book account number");
+        }else{
+            return mapper.toDto(repository.save(bookRegistration));
+        }
     }
+    
     
     @Override
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        if(repository.existsById(id)){
+            repository.deleteById(id);
+        } else {
+            throw new ResourceNotFoundException("Failed to delete by primary key ");
+        }
     }
     
     @Override
-    public Optional<BookRegistrationDTO> findById(Long id) {
-        Optional<BookRegistration> entityOptional = repository.findById(id);
-        return entityOptional.map(entity -> Optional.ofNullable(mapper.toDto(entity))).orElse(null);
+    public BookRegistrationDTO findById(Long id) {
+        return mapper.toDto(repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("BookRegistration by id not found")));
     }
     
-    @Override
-    public List<BookRegistrationDTO> findAll() {
-        return mapper.toDtoList((List<BookRegistration>) repository.findAll());
-    }
     
     @Override
     public Page<BookRegistrationDTO> findAll(Pageable pageable) {
@@ -62,10 +67,10 @@ public class BookRegistrationServiceImpl implements BookRegistrationService {
     
     @Override
     public BookRegistrationDTO updateById(BookRegistrationDTO dto) {
-        Optional<BookRegistrationDTO> optionalDto = findById(dto.getId());
-        if(optionalDto.isPresent()){
+        if(repository.existsById(dto.getId())) {
             return save(dto);
+        }else {
+            throw new ResourceNotFoundException("update failed no record with this id");
         }
-        return null;
     }
 }

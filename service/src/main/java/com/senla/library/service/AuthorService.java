@@ -9,8 +9,6 @@ public interface AuthorService {
     
     AuthorDTO save(AuthorDTO dto);
     
-    void save(List<AuthorDTO> dtos);
-    
     void deleteById(Long id);
     
     AuthorDTO findById(Long id);

@@ -11,8 +11,6 @@ public interface RoleService {
    
     RoleDTO save(RoleDTO dto);
     
-    void save(List<RoleDTO> dtos);
-    
     void deleteById(Long id);
     
     Optional<RoleDTO> findById(Long id);

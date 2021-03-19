@@ -9,8 +9,6 @@ public interface BookService {
    
     BookDTO save(BookDTO dto);
     
-    void save(List<BookDTO> dtos);
-    
     void deleteById(Long id);
     
     BookDTO findById(Long id);

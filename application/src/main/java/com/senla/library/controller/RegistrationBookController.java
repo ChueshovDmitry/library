@@ -35,12 +35,7 @@ public class RegistrationBookController {
     @ApiOperation("Find by id")
     @GetMapping("/{id}")
     public BookRegistrationDTO findById(@PathVariable("id") Long id) {
-        Optional<BookRegistrationDTO> dtoOptional = bookRegistrationService.findById(id);
-        if(dtoOptional!=null){
-            return dtoOptional.get();
-        }else {
-            throw new ResourceNotFoundException("Failed to delete by primary key");
-        }
+        return bookRegistrationService.findById(id);
     }
     
     @ApiOperation("Find by Id")
@@ -62,7 +57,7 @@ public class RegistrationBookController {
     }
     
     @ApiOperation("Update one data")
-    @PutMapping("/update/{id}")
+    @PutMapping("/update")
     public BookRegistrationDTO update(@RequestBody BookRegistrationDTO dto) {
         return bookRegistrationService.updateById(dto);
     }

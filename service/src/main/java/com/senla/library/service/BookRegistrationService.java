@@ -10,11 +10,9 @@ public interface BookRegistrationService {
     
     BookRegistrationDTO save(BookRegistrationDTO dto);
     
-    void save(List<BookRegistrationDTO> dtos);
-    
     void deleteById(Long id);
     
-    Optional<BookRegistrationDTO> findById(Long id);
+    BookRegistrationDTO findById(Long id);
     
     List<BookRegistrationDTO> findAll();
     

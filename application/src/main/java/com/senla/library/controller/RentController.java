@@ -30,8 +30,7 @@ public class RentController {
     @ApiOperation("Delete based on primary key")
     @GetMapping("/{id}")
     public RentDTO findById(@PathVariable("id") Long id) {
-        Optional<RentDTO> dtoOptional = rentService.findById(id);
-        return dtoOptional.orElse(null);
+    
     }
     
     @ApiOperation("Find by Id")
