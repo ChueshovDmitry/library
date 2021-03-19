@@ -14,7 +14,7 @@ public interface RentService {
     
     void deleteById(Long id);
     
-    Optional<RentDTO> findById(Long id);
+    RentDTO findById(Long id);
     
     List <RentDTO> findAll();
     

@@ -1,5 +1,4 @@
 package com.senla.library.service.impl;
-import com.senla.library.dto.AuthorDTO;
 import com.senla.library.mapper.BookMapper;
 import com.senla.library.repository.BookRepository;
 import com.senla.library.entity.Book;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service

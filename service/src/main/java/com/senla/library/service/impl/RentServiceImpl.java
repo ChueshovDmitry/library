@@ -5,6 +5,7 @@ import com.senla.library.repository.RentRepository;
 import com.senla.library.entity.Rent;
 import com.senla.library.dto.RentDTO;
 import com.senla.library.service.RentService;
+import com.senla.library.service.exception.ResourceDuplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -31,7 +32,13 @@ public class RentServiceImpl implements RentService {
     
     @Override
     public RentDTO save(RentDTO dto) {
-        return mapper.toDto(repository.save(mapper.toEntity(dto)));
+        Rent rent = mapper.toEntity(dto);
+        if(rent.getUser()== null || rent.getBookRegistration() == null || rent.getPlannedDateReturn() == null){
+            repository.save(rent);
+        }else {
+            throw new ("CONFLICT ISBN, error saving data, " +
+                    "the database contains such data");
+        }
     }
     
     @Override

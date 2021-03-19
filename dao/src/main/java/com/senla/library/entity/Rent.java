@@ -2,7 +2,6 @@ package com.senla.library.entity;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -30,7 +29,7 @@ public class Rent implements Serializable {
     private Date plannedDateReturn;
     
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
     

@@ -1,6 +1,7 @@
 package com.senla.library.exception;
 import com.senla.library.service.exception.ResourceDuplicationException;
 import com.senla.library.service.exception.ResourceNotFoundException;
+import com.senla.library.service.exception.ResourceNotSave;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -48,7 +49,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, INTERNAL_SERVER_ERROR);
     }
     
-    
+    @ExceptionHandler(ResourceNotSave.class)
+    public ResponseEntity<?> ResourceNotSave(ResourceNotSave exception, WebRequest request){
+        ErrorDetails errorDetails =
+                new ErrorDetails(new Date()
+                        ,exception.getMessage()
+                        ,request.getDescription(false)
+                        ,    BAD_REQUEST
+                        ,    BAD_REQUEST.value());
+        return new ResponseEntity<>(errorDetails,BAD_REQUEST);
+    }
 
 }
 
