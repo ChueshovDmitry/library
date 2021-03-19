@@ -8,7 +8,6 @@ import com.senla.library.service.exception.ResourceDuplicationException;
 import com.senla.library.service.exception.ResourceNotFoundException;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

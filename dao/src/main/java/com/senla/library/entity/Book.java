@@ -24,10 +24,18 @@ public class Book implements Serializable {
             unique = false,
             length = 100)
     private String name;
-
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    
+    @Column(nullable = false)
+    private Long pages;
+    
+    @Column(nullable = false)
+    private String publishingHouse;
+    
+    @OneToMany(fetch = FetchType.LAZY)
     private List <Author> authors;
     
+    @Column(nullable = false)
+    private String isbn;
 }
 
 

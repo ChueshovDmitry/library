@@ -15,6 +15,9 @@ public interface BookMapper extends EntityMapper<BookDTO, Book> {
     @Mappings({
             @Mapping(source = "id", target = "id"),
             @Mapping(source = "name", target = "name"),
+            @Mapping(source = "isbn",target = "isbn"),
+            @Mapping(source = "pages",target = "pages"),
+            @Mapping(source = "publishingHouse",target = "publishingHouse"),
     })
     Book toEntity(BookDTO dto);
     
@@ -22,6 +25,9 @@ public interface BookMapper extends EntityMapper<BookDTO, Book> {
     @Mappings({
             @Mapping(source = "id", target = "id"),
             @Mapping(source = "name", target = "name"),
+            @Mapping(source = "isbn",target = "isbn"),
+            @Mapping(source = "pages",target = "pages"),
+            @Mapping(source = "publishingHouse",target = "publishingHouse"),
     })
     BookDTO toDto(Book entity);
 }

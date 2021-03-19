@@ -55,7 +55,6 @@ public class AuthorController {
         
     }
     
-    
     @ApiOperation("Update one data")
     @PutMapping("/update")
     public AuthorDTO update(@RequestBody AuthorDTO dto){

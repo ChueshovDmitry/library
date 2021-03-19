@@ -7,7 +7,15 @@ public class BookDTO {
     
     private Long id;
     
+    private String isbn;
+    
     private String name;
     
     private List<AuthorDTO> authors;
+    
+    private Long pages;
+    
+    private String publishingHouse;
+    
+    
 }

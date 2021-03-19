@@ -13,7 +13,7 @@ public interface BookService {
     
     void deleteById(Long id);
     
-    Optional<BookDTO> findById(Long id);
+    BookDTO findById(Long id);
     
     List<BookDTO> findAll();
     
