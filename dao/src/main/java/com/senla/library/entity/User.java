@@ -1,7 +1,6 @@
 package com.senla.library.entity;
 
 import lombok.Data;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -28,5 +27,10 @@ public class User implements Serializable {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role roleEntity;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userInformation_id", referencedColumnName = "id")
+    private UserInformation userInformation;
+    
     
 }

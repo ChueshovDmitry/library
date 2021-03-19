@@ -34,9 +34,10 @@ public class Rent implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
     
+    
     @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "registrationBook_id", referencedColumnName = "id")
-    private RegistrationBook registrationBook;
+    private BookRegistration bookRegistration;
     
     
     

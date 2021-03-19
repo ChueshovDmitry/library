@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table
-public class RegistrationBook implements Serializable {
+public class BookRegistration implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,10 +29,9 @@ public class RegistrationBook implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date registrationDate;
     
-    
-    @Column(length = 12, nullable = true)
-    private String statusRent;
-    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private BookStatus status;
     
     @OneToOne(cascade = CascadeType.ALL)
     private Book book;

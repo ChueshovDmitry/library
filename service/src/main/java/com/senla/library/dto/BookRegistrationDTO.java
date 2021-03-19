@@ -4,7 +4,7 @@ import java.util.Date;
 
 
 @Data
-public class RegistrationBookDTO {
+public class BookRegistrationDTO {
     
     private Long id;
     
