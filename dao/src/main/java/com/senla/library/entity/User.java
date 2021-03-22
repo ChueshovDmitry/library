@@ -29,7 +29,7 @@ public class User implements Serializable {
     private Role roleEntity;
     
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "userInformation_id", referencedColumnName = "id")
+    @JoinColumn(name = "userInformation_id",referencedColumnName = "id")
     private UserInformation userInformation;
     
     

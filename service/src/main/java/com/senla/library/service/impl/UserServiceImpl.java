@@ -1,6 +1,8 @@
 package com.senla.library.service.impl;
 
+import com.senla.library.dto.RentDTO;
 import com.senla.library.dto.UserDTO;
+import com.senla.library.entity.Role;
 import com.senla.library.entity.User;
 import com.senla.library.mapper.UserMapper;
 import com.senla.library.repository.RoleRepository;
@@ -50,7 +52,13 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public List<UserDTO> findAll() {
-        return mapper.toDtoList((List<User>) repository.findAll());
+        Iterable<User> all = repository.findAll();
+        List<User> users =(List<User>)all;
+        if(users.isEmpty() || users == null){
+            throw new ResourceNotFoundException("User not found");
+        }else {
+            return mapper.toDtoList(users);
+        }
     }
     
     @Override
@@ -60,8 +68,15 @@ public class UserServiceImpl implements UserService {
         return new PageImpl<>(dtos,pageable,entityPage.getTotalElements());
     }
     
+    
     public User findByLogin(String login) {
-        return repository.findByLogin(login);
+        User user = repository.findByLogin(login);
+        if(user != null){
+            return user;
+        }else {
+            throw new ResourceNotFoundException("User by login not found");
+        }
+        
     }
     
     public User findByLoginAndPassword(String login,String password) {
@@ -72,6 +87,16 @@ public class UserServiceImpl implements UserService {
             }
         }
         return null;
+    }
+    
+    @Override
+    public UserDTO updateByLogin(UserDTO dto) {
+        User user = mapper.toEntity(dto);
+        if(repository.existsByLogin(dto.getLogin())){
+            return mapper.toDto(repository.save(user));
+        } else {
+            throw new ResourceNotFoundException("update failed no record with this user login");
+        }
     }
     
 }

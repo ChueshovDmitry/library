@@ -1,5 +1,6 @@
 package com.senla.library.controller;
 
+import com.senla.library.dto.RentDTO;
 import com.senla.library.dto.UserDTO;
 import com.senla.library.entity.User;
 import com.senla.library.security.jwt.JwtProvider;
@@ -55,6 +56,13 @@ public class UserController {
     @GetMapping("/page-query")
     public Page<UserDTO> pageQuery(Pageable pageable) {
         return userService.findAll(pageable);
+    }
+    
+    
+    @ApiOperation("Update one data")
+    @PutMapping("/update")
+    public UserDTO update(@RequestBody UserDTO dto) {
+        return userService.updateByLogin(dto);
     }
     
 }

@@ -3,6 +3,7 @@ import com.senla.library.service.exception.ResourceDuplicationException;
 import com.senla.library.service.exception.ResourceNotFoundException;
 import com.senla.library.service.exception.ResourceNotSave;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -61,6 +62,17 @@ public class GlobalExceptionHandler {
                         ,    BAD_REQUEST.value());
         return new ResponseEntity<>(errorDetails,BAD_REQUEST);
     }
-
+    
+ 
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<?> UsernameNotFoundExceptionHandling(UsernameNotFoundException exception,WebRequest request){
+        ErrorDetails errorDetails =
+                new ErrorDetails(new Date()
+                        ,exception.getMessage()
+                        ,request.getDescription(false)
+                        ,    NOT_FOUND
+                        ,    NOT_FOUND.value());
+        return new ResponseEntity<>(errorDetails,NOT_FOUND);
+    }
 }
 
