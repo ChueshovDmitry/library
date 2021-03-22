@@ -66,14 +66,12 @@ public class AuthorServiceImpl implements AuthorService {
         }
     }
     
-    
     @Override
     public Page<AuthorDTO> findAll(Pageable pageable) {
         Page<Author> entityPage = repository.findAll(pageable);
         List<AuthorDTO> dtos = mapper.toDtoList(entityPage.getContent());
         return new PageImpl<>(dtos,pageable,entityPage.getTotalElements());
     }
-    
     
     @Override
     public AuthorDTO updateById(AuthorDTO dto){

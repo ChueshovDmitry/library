@@ -13,7 +13,7 @@ public interface RoleService {
     
     void deleteById(Long id);
     
-    Optional<RoleDTO> findById(Long id);
+    RoleDTO findById(Long id);
     
     List<RoleDTO> findAll();
     

@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table
-public class BookRegistration implements Serializable {
+public class RegistrationBook implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

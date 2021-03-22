@@ -9,7 +9,7 @@ import java.util.Date;
 
 
 @Data
-public class BookRegistrationDTO {
+public class RegistrationBookDTO {
     
     private Long id;
     
@@ -19,7 +19,7 @@ public class BookRegistrationDTO {
     
     private String accountNumber;
     
-    private BookStatusDTO status;
+    private String status;
     
     
 }

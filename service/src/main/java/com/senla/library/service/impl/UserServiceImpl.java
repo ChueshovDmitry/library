@@ -22,13 +22,13 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
     
-    private  final UserMapper mapper;
+    private UserMapper mapper;
     
-    private  PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
     
-    private final RoleRepository roleRepository;
+    private RoleRepository roleRepository;
     
-    private final UserRepository repository;
+    private UserRepository repository;
     
     
     public UserServiceImpl(UserMapper mapper,PasswordEncoder passwordEncoder,RoleRepository roleRepository,

@@ -33,23 +33,12 @@ public class RentServiceImpl implements RentService {
     @Override
     public RentDTO save(RentDTO dto) {
         Rent rent = mapper.toEntity(dto);
-        if(rent.getUser()== null || rent.getBookRegistration() == null || rent.getPlannedDateReturn() == null){
+        if(rent.getUser()== null || rent.getRegistrationBook() == null || rent.getPlannedDateReturn() == null){
             throw new ResourceNotSave("Not all data is filled");
         }else {
             return mapper.toDto(repository.save(rent));
     
         }
-    }
-    
-    @Override
-    public void save(List<RentDTO> dtos) {
-        repository.saveAll(mapper.toEntityList(dtos));
-        List<Rent> rents = mapper.toEntityList(dtos);
-        rents.forEach(rent -> {
-            if(rent.getUser()== null || rent.getBookRegistration() == null || rent.getPlannedDateReturn() == null){
-                throw  new ResourceNotSave("error saving data, not all data is filled");
-            }
-        });
     }
     
     @Override
@@ -75,7 +64,8 @@ public class RentServiceImpl implements RentService {
             throw new ResourceNotFoundException("Rents not found");
         }else {
             return mapper.toDtoList(rents);
-        }    }
+        }
+    }
     
         
     @Override

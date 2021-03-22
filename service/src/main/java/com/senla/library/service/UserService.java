@@ -18,4 +18,5 @@ public interface UserService {
     User findByLogin(String login);
     
     User findByLoginAndPassword(String login,String password);
+    
 }

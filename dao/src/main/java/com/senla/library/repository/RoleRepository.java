@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface RoleRepository extends PagingAndSortingRepository<Role, Long> {
     
     Role findByName(String name);
+    
+    boolean existsByName(String name);
 
 }

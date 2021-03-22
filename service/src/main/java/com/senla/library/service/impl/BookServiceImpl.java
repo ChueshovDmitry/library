@@ -39,17 +39,6 @@ public class BookServiceImpl implements BookService {
     }
     
     @Override
-    public void save(List<BookDTO> dtos) {
-        List<Book> books = mapper.toEntityList(dtos);
-        books.forEach(book -> {
-            if(repository.existsByIsbn(book.getIsbn())){
-                throw  new ResourceDuplicationException("CONFLICT, error saving data, " + "the database contains such " +
-                        "data" + book.toString());
-            }
-        });
-    }
-    
-    @Override
     public void deleteById(Long id) {
         if(repository.existsById(id)){
             repository.deleteById(id);

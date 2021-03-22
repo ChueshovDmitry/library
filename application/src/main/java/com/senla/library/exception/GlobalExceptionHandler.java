@@ -39,6 +39,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, CONFLICT);
     }
     
+    
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> globalExceptionHandling(Exception exception, WebRequest request){
         ErrorDetails errorDetails =
@@ -48,6 +49,7 @@ public class GlobalExceptionHandler {
                         ,INTERNAL_SERVER_ERROR,INTERNAL_SERVER_ERROR.value());
         return new ResponseEntity<>(errorDetails, INTERNAL_SERVER_ERROR);
     }
+    
     
     @ExceptionHandler(ResourceNotSave.class)
     public ResponseEntity<?> ResourceNotSave(ResourceNotSave exception, WebRequest request){

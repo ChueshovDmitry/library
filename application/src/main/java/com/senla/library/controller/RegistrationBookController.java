@@ -1,7 +1,6 @@
 package com.senla.library.controller;
-import com.senla.library.dto.BookRegistrationDTO;
-import com.senla.library.service.exception.ResourceNotFoundException;
-import com.senla.library.service.BookRegistrationService;
+import com.senla.library.dto.RegistrationBookDTO;
+import com.senla.library.service.RegistrationBookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
@@ -9,17 +8,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
-@RequestMapping("/api/registration-book")
+@RequestMapping("/api/registrations/books")
 @RestController
 @Api(tags = "RegistrationBook API")
 public class RegistrationBookController {
-    private final BookRegistrationService bookRegistrationService;
+    private final RegistrationBookService registrationBookService;
     
-    public RegistrationBookController(BookRegistrationService bookRegistrationService) {
-        this.bookRegistrationService = bookRegistrationService;
+    public RegistrationBookController(RegistrationBookService registrationBookService) {
+        this.registrationBookService = registrationBookService;
     }
     
     @ApiOperation("Add new data")
@@ -33,32 +31,32 @@ public class RegistrationBookController {
     }
     
     @ApiOperation("Find by id")
-    @GetMapping("/{id}")
-    public BookRegistrationDTO findById(@PathVariable("id") Long id) {
-        return bookRegistrationService.findById(id);
+    @GetMapping("book/{id}")
+    public RegistrationBookDTO findById(@PathVariable("id") Long id) {
+        return registrationBookService.findById(id);
     }
     
     @ApiOperation("Find by Id")
     @DeleteMapping("/registration/delete/{id}")
     public void delete(@PathVariable("id") Long id) {
-        bookRegistrationService.deleteById(id);
+        registrationBookService.deleteById(id);
     }
     
     @ApiOperation("Find all data")
     @GetMapping("/list")
-    public List<BookRegistrationDTO> list() {
-        return bookRegistrationService.findAll();
+    public List<RegistrationBookDTO> list() {
+        return registrationBookService.findAll();
     }
     
     @ApiOperation("Pagination request")
     @GetMapping("/page-query")
-    public Page<BookRegistrationDTO> pageQuery(Pageable pageable) {
-        return bookRegistrationService.findAll(pageable);
+    public Page<RegistrationBookDTO> pageQuery(Pageable pageable) {
+        return registrationBookService.findAll(pageable);
     }
     
     @ApiOperation("Update one data")
-    @PutMapping("/update")
-    public BookRegistrationDTO update(@RequestBody BookRegistrationDTO dto) {
-        return bookRegistrationService.updateById(dto);
+    @PutMapping("book/update")
+    public RegistrationBookDTO update(@RequestBody RegistrationBookDTO dto) {
+        return registrationBookService.updateById(dto);
     }
 }

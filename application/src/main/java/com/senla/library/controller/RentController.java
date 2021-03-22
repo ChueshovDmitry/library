@@ -30,7 +30,7 @@ public class RentController {
     @ApiOperation("Delete based on primary key")
     @GetMapping("/{id}")
     public RentDTO findById(@PathVariable("id") Long id) {
-    
+        return rentService.findById(id);
     }
     
     @ApiOperation("Find by Id")

@@ -1,14 +1,14 @@
 package com.senla.library.mapper;
 
 
-import com.senla.library.entity.BookRegistration;
-import com.senla.library.dto.BookRegistrationDTO;
+import com.senla.library.dto.RegistrationBookDTO;
+import com.senla.library.entity.RegistrationBook;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
-public interface BookRegistrationMapper extends EntityMapper<BookRegistrationDTO, BookRegistration> {
+public interface RegistrationBookMapper extends EntityMapper<RegistrationBookDTO, RegistrationBook> {
     
     @Override
     @Mappings({
@@ -18,7 +18,7 @@ public interface BookRegistrationMapper extends EntityMapper<BookRegistrationDTO
             @Mapping(source = "accountNumber", target = "accountNumber"),
             @Mapping(source = "status",target = "status")
     })
-    BookRegistration toEntity(BookRegistrationDTO dto);
+    RegistrationBook toEntity(RegistrationBookDTO dto);
     
     @Override
     @Mappings({
@@ -29,7 +29,7 @@ public interface BookRegistrationMapper extends EntityMapper<BookRegistrationDTO
             @Mapping(source = "status",target = "status")
             
     })
-    BookRegistrationDTO toDto(BookRegistration entity);
+    RegistrationBookDTO toDto(RegistrationBook entity);
     
   
 }
