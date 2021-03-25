@@ -30,14 +30,15 @@ public class AuthorServiceImpl implements AuthorService {
     }
     
     @Override
-    public AuthorDTO save(AuthorDTO dto) {
-        Author author = mapper.toEntity(dto);
-        if(repository.existsBySurnameAndInitials(author.getSurname(),author.getInitials())) {
-            throw new ResourceDuplicationException("CONFLICT, error saving data, " +
-                    "the database contains such data");
-        }else{
-            return mapper.toDto(repository.save(author));
-        }
+        public AuthorDTO save(AuthorDTO dto) {
+            
+            Author author = mapper.toEntity(dto);
+            
+            if(repository.existsBySurnameAndInitials(author.getSurname(),author.getInitials())) {
+                throw new ResourceDuplicationException("CONFLICT, error saving data,the database contains such data");
+            }else{
+                return mapper.toDto(repository.save(author));
+            }
     }
     
     @Override

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@RequestMapping("/api/authors")
+@RequestMapping(path = "/api/authors")
 @RestController
 @Api(tags = "Author API")
 public class AuthorController {

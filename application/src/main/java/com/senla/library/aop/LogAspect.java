@@ -24,6 +24,8 @@ public class LogAspect {
         private static final String SPACE = " ";
         
         @AfterThrowing(pointcut = "execution ( public * com.senla.library.controller.*.*(..))", throwing = "exception")
+        
+      
         public void loggingExceptionControllerLayer(JoinPoint joinPoint,Throwable exception) {
             ObjectMapper objectMapper = new ObjectMapper();
             Logger logger = getLogger(joinPoint.getTarget().getClass());
