@@ -62,7 +62,7 @@ class AuthorServiceImplTest {
     
     
     @Test
-    @DisplayName("Test for save method")
+    @DisplayName("save test")
     public void save() {
     
         when(mapper.toDto(author)).thenReturn(authorDTO);
@@ -76,7 +76,7 @@ class AuthorServiceImplTest {
     }
     
     @Test
-    @DisplayName("Test save simulation exception")
+    @DisplayName("save test exception")
     public void saveThrows() {
         
         when(mapper.toEntity(ArgumentMatchers.any(AuthorDTO.class))).thenReturn(author);
@@ -94,7 +94,7 @@ class AuthorServiceImplTest {
     }
     
     @Test
-    @DisplayName("Test delete method")
+    @DisplayName("delete test")
     public void deleteById() {
         
         when(repository.existsById(1L)).thenReturn(true);
@@ -104,7 +104,7 @@ class AuthorServiceImplTest {
     
     
     @Test
-    @DisplayName("Test find by Author id ")
+    @DisplayName("findById test ")
     public void findById() {
         when(mapper.toDto(author)).thenReturn(authorDTO);
         when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(author));
@@ -116,7 +116,7 @@ class AuthorServiceImplTest {
     }
     
     @Test
-    @DisplayName("Test find by exception id ")
+    @DisplayName("findBy id test exception ")
     public void findByIdException() {
         
         when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.ofNullable(null));

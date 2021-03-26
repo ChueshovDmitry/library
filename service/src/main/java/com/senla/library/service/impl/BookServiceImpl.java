@@ -6,6 +6,7 @@ import com.senla.library.dto.BookDTO;
 import com.senla.library.service.BookService;
 import com.senla.library.service.exception.ResourceDuplicationException;
 import com.senla.library.service.exception.ResourceNotFoundException;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,6 +16,7 @@ import java.util.List;
 
 
 @Service
+@Log4j2
 public class BookServiceImpl implements BookService {
     
     private final BookMapper mapper;
@@ -29,12 +31,18 @@ public class BookServiceImpl implements BookService {
     
     @Override
     public BookDTO save(BookDTO dto) {
-        Book book = mapper.toEntity(dto);
-        if(repository.existsByIsbn(book.getIsbn())){
-            throw new ResourceDuplicationException("CONFLICT ISBN, error saving data, " +
+        if(dto != null){
+            Book book = mapper.toEntity(dto);
+              if(repository.existsByIsbn(book.getIsbn())){
+                  throw new ResourceDuplicationException("CONFLICT ISBN, error saving data, " +
                     "the database contains such data");
-        }else{
-            return mapper.toDto(repository.save(book));
+              }else{
+                  return mapper.toDto(repository.save(book));
+              }
+        }else {
+            log.error("recourse not save in BookServiceImpl, dto==null");
+            throw new ResourceNotFoundException("recourse not save");
+    
         }
     }
     
