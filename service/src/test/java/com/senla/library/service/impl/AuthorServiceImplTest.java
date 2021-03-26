@@ -22,6 +22,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -54,7 +55,7 @@ class AuthorServiceImplTest {
         author.setId(1L);
         author.setSurname("Puskin");
         author.setInitials("A.S.");
-        List<Author>authors=new ArrayList<>();
+        List<Author> authors = new ArrayList<>();
         authors.add(author);
         
     }
@@ -62,7 +63,7 @@ class AuthorServiceImplTest {
     
     @Test
     @DisplayName("Test for save method")
-    public void save(){
+    public void save() {
     
         when(mapper.toDto(author)).thenReturn(authorDTO);
         when(mapper.toEntity(ArgumentMatchers.any(AuthorDTO.class))).thenReturn(author);
@@ -71,35 +72,80 @@ class AuthorServiceImplTest {
         assertAll(() -> {
             assertEquals(mapper.toEntity(authorDTO),author);
             assertNotNull(authorService.save(authorDTO));
-            });
+        });
     }
     
     @Test
     @DisplayName("Test save simulation exception")
-    public void saveThrows(){
+    public void saveThrows() {
         
         when(mapper.toEntity(ArgumentMatchers.any(AuthorDTO.class))).thenReturn(author);
         
-        when(repository.existsBySurnameAndInitials(ArgumentMatchers.anyString()
-                ,ArgumentMatchers.anyString())).thenReturn(true);
-        
-        
-       Throwable exception  = assertThrows(ResourceDuplicationException.class,() ->  {
-               authorService.save(authorDTO);
-           }
-       );
+        when(repository.existsBySurnameAndInitials(ArgumentMatchers.anyString(),ArgumentMatchers.anyString())).thenReturn(true);
+    
+    
+        Throwable exception = assertThrows(ResourceDuplicationException.class,() -> {
+            authorService.save(authorDTO);
+        });
     
         assertAll(() -> {
-            assertEquals("CONFLICT, error saving data,the database contains such data"
-                    ,exception.getMessage());
+            assertEquals("CONFLICT, error saving data,the database contains such data",exception.getMessage());
         });
     }
     
     @Test
     @DisplayName("Test delete method")
     public void deleteById() {
+        
         when(repository.existsById(1L)).thenReturn(true);
         authorService.deleteById(1L);
         verify(repository).deleteById(1L);
     }
+    
+    
+    @Test
+    @DisplayName("Test find by Author id ")
+    public void findById() {
+        when(mapper.toDto(author)).thenReturn(authorDTO);
+        when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(author));
+    
+        assertAll(() -> {
+            assertEquals(authorService.findById(1L),authorDTO);
+            assertNotEquals(authorService.findById(1L),author);
+        });
+    }
+    
+    @Test
+    @DisplayName("Test find by exception id ")
+    public void findByIdException() {
+        
+        when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.ofNullable(null));
+    
+        Throwable exception = assertThrows(ResourceNotFoundException.class,() -> {
+            authorService.findById(1L);
+        });
+    
+        assertAll(() -> {
+            assertEquals("Author by id not found",exception.getMessage());
+        });
+    }
+    
+    @Test
+    @DisplayName("Test on null ")
+    public void findByIdNull() {
+        Long i= 0L;
+            Throwable exception = assertThrows(ResourceNotFoundException.class,() -> {
+                authorService.findById(i);
+            });
+            
+        assertAll(() -> {
+            assertEquals("id == 0",exception.getMessage());
+        });
+
+        
+    
+    
+    }
+  
+    
 }
