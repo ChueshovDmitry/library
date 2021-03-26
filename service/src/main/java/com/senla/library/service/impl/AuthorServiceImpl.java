@@ -31,29 +31,41 @@ public class AuthorServiceImpl implements AuthorService {
     
     @Override
         public AuthorDTO save(AuthorDTO dto) {
-            
-            Author author = mapper.toEntity(dto);
-            
-            if(repository.existsBySurnameAndInitials(author.getSurname(),author.getInitials())) {
-                throw new ResourceDuplicationException("CONFLICT, error saving data,the database contains such data");
-            }else{
-                return mapper.toDto(repository.save(author));
+            if (dto != null){
+                
+                Author author = mapper.toEntity(dto);
+                
+                if(repository.existsBySurnameAndInitials(author.getSurname(),author.getInitials())) {
+                    throw new ResourceDuplicationException("CONFLICT, error saving data,the database contains such data");
+                }else{
+                    return mapper.toDto(repository.save(author));
+                }
+            }else {
+                throw new ResourceNotFoundException("dto == null");
             }
     }
     
     @Override
     public void deleteById(Long id) {
-        if(repository.existsById(id)){
-            repository.deleteById(id);
-        } else {
+        if(id != 0){
+            if(repository.existsById(id)){
+                repository.deleteById(id);
+            } else {
                 throw new ResourceNotFoundException("Failed to delete by primary key ");
+            }
+        }else {
+            throw new ResourceNotFoundException("id == 0");
         }
     }
     
     @Override
     public AuthorDTO findById(Long id) {
-        return mapper.toDto(repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Author by id not found")));
+        if(id != 0){
+            return mapper.toDto(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
+                "Author by id not found")));
+        }else {
+            throw new ResourceNotFoundException("id == 0");
+        }
     }
     
     @Override
@@ -76,10 +88,14 @@ public class AuthorServiceImpl implements AuthorService {
     
     @Override
     public AuthorDTO updateById(AuthorDTO dto){
-       if(repository.existsById(dto.getId())) {
-           return save(dto);
-       }else {
-           throw new ResourceNotFoundException("update failed no record with this id");
+        if(dto!=null){
+            if(repository.existsById(dto.getId())) {
+                return save(dto);
+            }else {
+                throw new ResourceNotFoundException("update failed no record with this id");
        }
+    }else {
+            throw new ResourceNotFoundException("id == 0");
+        }
     }
 }

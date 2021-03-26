@@ -5,6 +5,7 @@ import com.senla.library.entity.Author;
 import com.senla.library.mapper.AuthorMapper;
 import com.senla.library.repository.AuthorRepository;
 import com.senla.library.service.exception.ResourceDuplicationException;
+import com.senla.library.service.exception.ResourceNotFoundException;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.apache.logging.log4j.core.util.Assert;
 import org.apache.tomcat.util.http.parser.Authorization;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Dmitry Chueshov 22.03.2021 12:22
@@ -62,9 +64,9 @@ class AuthorServiceImplTest {
     @DisplayName("Test for save method")
     public void save(){
     
-        Mockito.when(mapper.toDto(author)).thenReturn(authorDTO);
-        Mockito.when(mapper.toEntity(ArgumentMatchers.any(AuthorDTO.class))).thenReturn(author);
-        Mockito.when(repository.save(ArgumentMatchers.any(Author.class))).thenReturn(author);
+        when(mapper.toDto(author)).thenReturn(authorDTO);
+        when(mapper.toEntity(ArgumentMatchers.any(AuthorDTO.class))).thenReturn(author);
+        when(repository.save(ArgumentMatchers.any(Author.class))).thenReturn(author);
     
         assertAll(() -> {
             assertEquals(mapper.toEntity(authorDTO),author);
@@ -76,9 +78,9 @@ class AuthorServiceImplTest {
     @DisplayName("Test save simulation exception")
     public void saveThrows(){
         
-        Mockito.when(mapper.toEntity(ArgumentMatchers.any(AuthorDTO.class))).thenReturn(author);
+        when(mapper.toEntity(ArgumentMatchers.any(AuthorDTO.class))).thenReturn(author);
         
-        Mockito.when(repository.existsBySurnameAndInitials(ArgumentMatchers.anyString()
+        when(repository.existsBySurnameAndInitials(ArgumentMatchers.anyString()
                 ,ArgumentMatchers.anyString())).thenReturn(true);
         
         
@@ -93,4 +95,11 @@ class AuthorServiceImplTest {
         });
     }
     
+    @Test
+    @DisplayName("Test delete method")
+    public void deleteById() {
+        when(repository.existsById(1L)).thenReturn(true);
+        authorService.deleteById(1L);
+        verify(repository).deleteById(1L);
+    }
 }
