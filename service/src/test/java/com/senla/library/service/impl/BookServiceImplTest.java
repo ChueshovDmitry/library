@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -115,7 +116,22 @@ class BookServiceImplTest {
     }
     
     @Test
-    @DisplayName("Test on null ")
+    @DisplayName("check save if dto==null ")
+    public void saveIfNull(){
+        BookDTO bookDTO = null;
+        
+        
+        Throwable exception = assertThrows(ResourceNotFoundException.class,() -> {
+            bookService.save(null);
+        });
+        
+        assertEquals("resource not save",exception.getMessage());
+        
+        
+    }
+    
+    @Test
+    @DisplayName("Test find by id on null ")
     public void findByIdNull() {
         Long i = 0L;
         Throwable exception = assertThrows(ResourceNotFoundException.class,() -> {
@@ -125,5 +141,13 @@ class BookServiceImplTest {
         assertAll(() -> {
             assertEquals("Book by id not found",exception.getMessage());
         });
+    }
+    
+    @Test
+    @DisplayName("delete test")
+    public void deleteById() {
+        when(bookRepository.existsById(1L)).thenReturn(true);
+        bookService.deleteById(1L);
+        verify(bookRepository).deleteById(1L);
     }
 }
