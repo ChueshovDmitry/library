@@ -41,23 +41,35 @@ public class BookServiceImpl implements BookService {
               }
         }else {
             log.error("recourse not save in BookServiceImpl, dto==null");
-            throw new ResourceNotFoundException("recourse not save");
+            throw new ResourceNotFoundException("resource not save");
     
         }
     }
     
     @Override
     public void deleteById(Long id) {
-        if(repository.existsById(id)){
-            repository.deleteById(id);
+        if(id!=null){
+            if(repository.existsById(id)){
+                repository.deleteById(id);
+            } else {
+                throw new ResourceNotFoundException("Failed to delete by primary key ");
+            }
         }else {
-            throw new ResourceNotFoundException("Failed to delete by primary key ");
+            log.error("recourse not save in BookServiceImpl, id==0");
+            throw new ResourceNotFoundException("resource not save id==0");
         }
     }
+
     
     @Override
     public BookDTO findById(Long id) {
-      return mapper.toDto(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book by id not found")));
+        if(id!=null){
+            return mapper.toDto(repository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Book by id not found")));
+        } else {
+            log.error("error in find by id, id == 0");
+            throw new ResourceNotFoundException("resource not save id == 0");
+        }
     }
     
     @Override
@@ -80,10 +92,16 @@ public class BookServiceImpl implements BookService {
     
     @Override
     public BookDTO updateById(BookDTO dto) {
+        if(dto!=null){
         if(repository.existsById(dto.getId())){
             return save(dto);
         } else {
             throw new ResourceNotFoundException("update failed no record with this id");
         }
+    }else {
+            log.error("error in update  by id, id == null");
+            throw new ResourceNotFoundException("resource not update id == null");
+        }
     }
+    
 }

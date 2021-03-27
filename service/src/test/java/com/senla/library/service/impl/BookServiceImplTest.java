@@ -7,6 +7,7 @@ import com.senla.library.entity.Book;
 import com.senla.library.mapper.BookMapper;
 import com.senla.library.repository.BookRepository;
 import com.senla.library.service.exception.ResourceDuplicationException;
+import com.senla.library.service.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ class BookServiceImplTest {
     
     @Mock
     private BookRepository bookRepository;
-
+    
     @InjectMocks
     private BookServiceImpl bookService;
     
@@ -51,11 +52,10 @@ class BookServiceImplTest {
     
     private static Author author = new Author();
     
-
     
     @BeforeEach
     public void setup() {
-    
+        
         author.setId(1L);
         author.setSurname("Puskin");
         author.setInitials("A.S.");
@@ -76,7 +76,7 @@ class BookServiceImplTest {
         bookDTO.setName("Space");
         bookDTO.setPages(450L);
         bookDTO.setPublishingHouse("RED HOUSE");
-    
+        
         book.setId(bookDTO.getId());
         book.setAuthors(authors);
         book.setIsbn(bookDTO.getIsbn());
@@ -89,14 +89,41 @@ class BookServiceImplTest {
     @Test
     @DisplayName("save test")
     public void save() {
-        
         when(mapper.toEntity(ArgumentMatchers.any(BookDTO.class))).thenReturn(book);
-        
         when(mapper.toDto(ArgumentMatchers.any(Book.class))).thenReturn(bookDTO);
         when(bookRepository.existsByIsbn(ArgumentMatchers.anyString())).thenReturn(false);
         when(bookRepository.save(ArgumentMatchers.any(Book.class))).thenReturn(book);
-        
         assertEquals(bookDTO,bookService.save(bookDTO));
     }
     
+    
+    @Test
+    @DisplayName("Save Exception")
+    public void saveException() {
+        
+        when(mapper.toEntity(ArgumentMatchers.any(BookDTO.class))).thenReturn(book);
+        
+        when(bookRepository.existsByIsbn(ArgumentMatchers.anyString())).thenReturn(true);
+        
+        Throwable exception = assertThrows(ResourceDuplicationException.class,() -> {
+            bookService.save(bookDTO);
+        });
+    
+        assertAll(() -> {
+            assertEquals("CONFLICT ISBN, error saving data, the database contains such data",exception.getMessage());
+        });
+    }
+    
+    @Test
+    @DisplayName("Test on null ")
+    public void findByIdNull() {
+        Long i = 0L;
+        Throwable exception = assertThrows(ResourceNotFoundException.class,() -> {
+            bookService.findById(i);
+        });
+    
+        assertAll(() -> {
+            assertEquals("Book by id not found",exception.getMessage());
+        });
+    }
 }
