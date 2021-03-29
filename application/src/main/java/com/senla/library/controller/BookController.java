@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/api/book")
+@RequestMapping("/api/books")
 @RestController
 @Api(tags = "Book API")
 public class BookController {
@@ -23,19 +23,19 @@ public class BookController {
     }
     
     @ApiOperation("Add new data")
-    @PostMapping("/save")
+    @PostMapping("/book/save")
     public void save(@RequestBody BookDTO book) {
        bookService.save(book);
     }
     
-    @ApiOperation("Delete based on primary key")
-    @GetMapping("/{id}")
+    @ApiOperation("Find by Id")
+    @GetMapping("/book/{id}")
     public BookDTO findById(@PathVariable("id") Long id) {
         return bookService.findById(id);
     }
     
-    @ApiOperation("Find by Id")
-    @DeleteMapping("/delete/{id}")
+    @ApiOperation("Delete based on primary key")
+    @DeleteMapping("/book/delete/{id}")
     public void delete(@PathVariable("id") Long id) {
         bookService.deleteById(id);
     }
@@ -53,7 +53,7 @@ public class BookController {
     }
     
     @ApiOperation("Update one data")
-    @PutMapping("/update/{id}")
+    @PutMapping("/book/update")
     public BookDTO update(@RequestBody BookDTO dto) {
        return bookService.updateById(dto);
     }

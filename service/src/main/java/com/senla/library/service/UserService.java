@@ -5,15 +5,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-
+import java.util.Optional;
 
 public interface UserService {
     
     UserDTO userRegistration(UserDTO dto);
     
+//    void deleteById(Long id);
+    
+//    Optional<UserDTO> findById(Long id);
+    
     List<UserDTO> findAll();
     
     Page<UserDTO> findAll(Pageable pageable);
+    
+    UserDTO updateByLogin(UserDTO dto);
     
     User findByLogin(String login);
     

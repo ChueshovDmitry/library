@@ -3,9 +3,8 @@ package com.senla.library.controller;
 import com.senla.library.dto.RentDTO;
 import com.senla.library.dto.UserDTO;
 import com.senla.library.entity.User;
-import com.senla.library.security.jwt.JwtProvider;
-import com.senla.library.security.сonfig.AuthRequest;
-import com.senla.library.security.сonfig.AuthResponse;
+import com.senla.library.security.AuthResponse;
+import com.senla.library.security.JwtProvider;
 import com.senla.library.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,10 +31,10 @@ public class UserController {
         this.jwtProvider = jwtProvider;
     }
     
-    @ApiOperation("Add new data")
-    @PostMapping("/user/register")
-    public void save(@RequestBody UserDTO user) {
-        userService.save(user);
+    @PostMapping("user/register")
+    public String registerUser(@RequestBody @Valid UserDTO userDTO){
+        UserDTO register = userService.userRegistration(userDTO);
+        return "OK";
     }
     
     @PostMapping("user/auth")
@@ -50,7 +49,6 @@ public class UserController {
     public List<UserDTO> list() {
         return userService.findAll();
     }
-    
     
     @ApiOperation("Pagination request")
     @GetMapping("/page-query")

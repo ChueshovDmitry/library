@@ -8,6 +8,8 @@ import com.senla.library.mapper.UserMapper;
 import com.senla.library.repository.RoleRepository;
 import com.senla.library.repository.UserRepository;
 import com.senla.library.service.UserService;
+import com.senla.library.service.exception.ResourceDuplicationException;
+import com.senla.library.service.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -44,9 +46,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO userRegistration (UserDTO dto) {
         User user = new User();
-        user.setLogin(dto.getLogin());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        if(repository.existsByLogin(user.getLogin())){
+            throw new ResourceDuplicationException("CONFLICT, error saving user login, " +
+                    "the database contains such data");
+        } else {
+            user.setLogin(dto.getLogin());
+        }
         user.setRoleEntity(roleRepository.findByName("ROLE_USER"));
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         return mapper.toDto(repository.save(user));
     }
     

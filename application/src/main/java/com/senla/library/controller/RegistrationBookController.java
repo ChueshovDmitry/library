@@ -21,13 +21,9 @@ public class RegistrationBookController {
     }
     
     @ApiOperation("Add new data")
-    @PostMapping("/registration/save")
+    @PostMapping("book/save")
     public void save(@RequestBody RegistrationBookDTO registrationBook) {
-        try{
-            bookRegistrationService.save(registrationBook);
-        } catch(RuntimeException e){
-            throw new ResourceNotFoundException("Failed in add new data");
-        }
+        registrationBookService.save(registrationBook);
     }
     
     @ApiOperation("Find by id")
@@ -36,8 +32,8 @@ public class RegistrationBookController {
         return registrationBookService.findById(id);
     }
     
-    @ApiOperation("Find by Id")
-    @DeleteMapping("/registration/delete/{id}")
+    @ApiOperation("Delete based on primary key")
+    @DeleteMapping("book/delete/{id}")
     public void delete(@PathVariable("id") Long id) {
         registrationBookService.deleteById(id);
     }
