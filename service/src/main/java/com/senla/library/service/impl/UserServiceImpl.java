@@ -1,8 +1,5 @@
 package com.senla.library.service.impl;
-
-import com.senla.library.dto.RentDTO;
 import com.senla.library.dto.UserDTO;
-import com.senla.library.entity.Role;
 import com.senla.library.entity.User;
 import com.senla.library.mapper.UserMapper;
 import com.senla.library.repository.RoleRepository;
@@ -11,15 +8,9 @@ import com.senla.library.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {

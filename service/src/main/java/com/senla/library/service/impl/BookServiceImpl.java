@@ -48,27 +48,27 @@ public class BookServiceImpl implements BookService {
     
     @Override
     public void deleteById(Long id) {
-        if(id!=null){
+        if(id > 0){
             if(repository.existsById(id)){
                 repository.deleteById(id);
             } else {
                 throw new ResourceNotFoundException("Failed to delete by primary key ");
             }
         }else {
-            log.error("recourse not save in BookServiceImpl, id==0");
-            throw new ResourceNotFoundException("resource not save id==0");
+            log.error("recourse not save in BookServiceImpl, id < 0");
+            throw new ResourceNotFoundException("resource not save id < 0");
         }
     }
 
     
     @Override
     public BookDTO findById(Long id) {
-        if(id!=null){
+        if(id > 0){
             return mapper.toDto(repository.findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException("Book by id not found")));
         } else {
-            log.error("error in find by id, id == 0");
-            throw new ResourceNotFoundException("resource not save id == 0");
+            log.error("error in find by id, id < 0");
+            throw new ResourceNotFoundException("resource not save id < 0");
         }
     }
     
@@ -99,8 +99,8 @@ public class BookServiceImpl implements BookService {
             throw new ResourceNotFoundException("update failed no record with this id");
         }
     }else {
-            log.error("error in update  by id, id == null");
-            throw new ResourceNotFoundException("resource not update id == null");
+            log.error("error , dto == null");
+            throw new ResourceNotFoundException("resource not update dto == null");
         }
     }
     

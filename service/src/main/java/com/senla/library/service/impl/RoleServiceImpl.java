@@ -1,14 +1,12 @@
 package com.senla.library.service.impl;
 
 import com.senla.library.dto.RoleDTO;
-import com.senla.library.entity.Rent;
 import com.senla.library.entity.Role;
 import com.senla.library.mapper.RoleMapper;
 import com.senla.library.repository.RoleRepository;
 import com.senla.library.service.RoleService;
 import com.senla.library.service.exception.ResourceDuplicationException;
 import com.senla.library.service.exception.ResourceNotFoundException;
-import com.senla.library.service.exception.ResourceNotSave;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

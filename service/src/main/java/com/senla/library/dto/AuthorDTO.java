@@ -2,8 +2,6 @@ package com.senla.library.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
 
 /**
