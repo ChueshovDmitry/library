@@ -6,6 +6,7 @@ import com.senla.library.repository.RegistrationBookRepository;
 import com.senla.library.service.RegistrationBookService;
 import com.senla.library.service.exception.ResourceDuplicationException;
 import com.senla.library.service.exception.ResourceNotFoundException;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Log4j2
 public class RegistrationBookServiceImpl implements RegistrationBookService {
     
     private final RegistrationBookMapper mapper;
@@ -31,28 +33,43 @@ public class RegistrationBookServiceImpl implements RegistrationBookService {
     
     @Override
     public RegistrationBookDTO save(RegistrationBookDTO dto) {
-        RegistrationBook registrationBook = mapper.toEntity(dto);
-        if(repository.existsByAccountNumber(registrationBook.getAccountNumber())) {
-            throw new ResourceDuplicationException("CONFLICT, in book account number");
-        }else{
-            return mapper.toDto(repository.save(registrationBook));
+        if(dto != null){
+            RegistrationBook registrationBook = mapper.toEntity(dto);
+            if(repository.existsByAccountNumber(registrationBook.getAccountNumber())){
+                throw new ResourceDuplicationException("CONFLICT, in book account number");
+            } else {
+                return mapper.toDto(repository.save(registrationBook));
+            }
+        }else {
+            log.error("recourse not save in BookServiceImpl, dto == null");
+            throw new ResourceNotFoundException("resource not save dto == null");
         }
     }
     
     
     @Override
     public void deleteById(Long id) {
-        if(repository.existsById(id)){
-            repository.deleteById(id);
+        if(id > 0){
+            if(repository.existsById(id)){
+                repository.deleteById(id);
+            } else {
+                throw new ResourceNotFoundException("Failed to delete by primary key ");
+            }
         } else {
-            throw new ResourceNotFoundException("Failed to delete by primary key ");
+            log.error("exception in method deleteByid id <= 0");
+            throw new ResourceNotFoundException("id <= 0 ");
         }
     }
     
     @Override
     public RegistrationBookDTO findById(Long id) {
-        return mapper.toDto(repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Registration book by id not found")));
+        if(id > 0){
+            return mapper.toDto(repository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Registration book by id not found")));
+        } else {
+            log.error("error in find by id, id < 0");
+            throw new ResourceNotFoundException("exception, resource not save id < 0");
+        }
     }
     
     @Override
@@ -75,10 +92,16 @@ public class RegistrationBookServiceImpl implements RegistrationBookService {
     
     @Override
     public RegistrationBookDTO updateById(RegistrationBookDTO dto) {
-        if(repository.existsById(dto.getId())) {
-            return save(dto);
-        }else {
-            throw new ResourceNotFoundException("update failed no record with this id");
+        if(dto != null){
+            
+            if(repository.existsById(dto.getId())) {
+                return save(dto);
+            }else {
+                throw new ResourceNotFoundException("update failed no record with this id");
+            }
+        } else {
+            log.error("error , dto == null");
+            throw new ResourceNotFoundException("resource not update dto == null");
         }
     }
 }

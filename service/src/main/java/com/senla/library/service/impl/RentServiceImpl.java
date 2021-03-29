@@ -7,6 +7,7 @@ import com.senla.library.dto.RentDTO;
 import com.senla.library.service.RentService;
 import com.senla.library.service.exception.ResourceNotFoundException;
 import com.senla.library.service.exception.ResourceNotSave;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,6 +18,7 @@ import java.util.List;
 
 
 @Service
+@Log4j2
 public class RentServiceImpl implements RentService {
     
     private RentMapper mapper;
@@ -31,35 +33,51 @@ public class RentServiceImpl implements RentService {
     
     @Override
     public RentDTO save(RentDTO dto) {
-        Rent rent = mapper.toEntity(dto);
-        if(rent.getUser()== null || rent.getRegistrationBook() == null || rent.getPlannedDateReturn() == null){
-            throw new ResourceNotSave("Not all data is filled");
-        }else {
-            return mapper.toDto(repository.save(rent));
-    
+        if(dto != null){
+            Rent rent = mapper.toEntity(dto);
+            if(rent.getUser()== null || rent.getRegistrationBook() == null || rent.getPlannedDateReturn() == null){
+                throw new ResourceNotSave("Not all data is filled");
+            }else {
+                return mapper.toDto(repository.save(rent));
+            }
+        } else {
+            log.error("recourse not save in BookServiceImpl, dto==null");
+            throw new ResourceNotFoundException("dto == null");
         }
     }
     
     @Override
     public void deleteById(Long id) {
-        if(repository.existsById(id)){
-            repository.deleteById(id);
-        }else {
-            throw new ResourceNotFoundException("Failed to delete by primary key ");
+        if(id > 0){
+            if(repository.existsById(id)){
+                repository.deleteById(id);
+            }else {
+                throw new ResourceNotFoundException("Failed to delete by primary key ");
+            }
+        } else {
+            log.error("not save , id < 0");
+            throw new ResourceNotFoundException("resource not save id < 0");
+            
         }
     }
     
     @Override
     public RentDTO findById(Long id) {
-        return mapper.toDto(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Rent by id not found")));
-    
+        if(id > 0){
+            
+            return mapper.toDto(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
+                        "Rent by id not found")));
+        } else {
+            log.error("error in find by id, id < 0");
+            throw new ResourceNotFoundException("exception, resource not save id < 0");
+        }
     }
     
     @Override
     public List<RentDTO> findAll() {
         Iterable<Rent> all = repository.findAll();
         List<Rent>rents=(List<Rent>)all;
-        if(rents.isEmpty() || rents==null){
+        if( rents == null || rents.isEmpty() ){
             throw new ResourceNotFoundException("Rents not found");
         }else {
             return mapper.toDtoList(rents);
@@ -76,10 +94,16 @@ public class RentServiceImpl implements RentService {
     
     @Override
     public RentDTO updateById(RentDTO dto) {
-        if(repository.existsById(dto.getId())){
-            return save(dto);
+    
+        if(dto!=null){
+            if(repository.existsById(dto.getId())){
+                return save(dto);
+            } else {
+                throw new ResourceNotFoundException("update failed no record with this id");
+            }
         } else {
-            throw new ResourceNotFoundException("update failed no record with this id");
+            log.error("error , dto == null");
+            throw new ResourceNotFoundException("resource not update dto == null");
         }
     }
     
