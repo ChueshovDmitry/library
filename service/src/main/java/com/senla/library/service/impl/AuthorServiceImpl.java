@@ -6,7 +6,7 @@ import com.senla.library.dto.AuthorDTO;
 import com.senla.library.service.AuthorService;
 import com.senla.library.service.exception.ResourceDuplicationException;
 import com.senla.library.service.exception.ResourceNotFoundException;
-import javassist.NotFoundException;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,6 +16,7 @@ import java.util.List;
 
 
 
+@Log4j2
 @Service
 public class AuthorServiceImpl implements AuthorService {
     
@@ -41,26 +42,27 @@ public class AuthorServiceImpl implements AuthorService {
                     return mapper.toDto(repository.save(author));
                 }
             }else {
+                log.error("recourse not save in BookServiceImpl, dto==null");
                 throw new ResourceNotFoundException("dto == null");
             }
     }
     
     @Override
     public void deleteById(Long id) {
-        if(id != 0){
+        if(id > 0){
             if(repository.existsById(id)){
                 repository.deleteById(id);
             } else {
                 throw new ResourceNotFoundException("Failed to delete by primary key ");
             }
         }else {
-            throw new ResourceNotFoundException("id == 0");
+            throw new ResourceNotFoundException("id < 0");
         }
     }
     
     @Override
     public AuthorDTO findById(Long id) {
-        if(id != 0){
+        if(id > 0){
             return mapper.toDto(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
                 "Author by id not found")));
         }else {
@@ -86,9 +88,10 @@ public class AuthorServiceImpl implements AuthorService {
         return new PageImpl<>(dtos,pageable,entityPage.getTotalElements());
     }
     
+    
     @Override
     public AuthorDTO updateById(AuthorDTO dto){
-        if(dto!=null){
+        if(dto!= null){
             if(repository.existsById(dto.getId())) {
                 return save(dto);
             }else {

@@ -16,8 +16,6 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,7 +137,7 @@ class BookServiceImplTest {
         });
     
         assertAll(() -> {
-            assertEquals("Book by id not found",exception.getMessage());
+            assertEquals("resource not save id < 0",exception.getMessage());
         });
     }
     
