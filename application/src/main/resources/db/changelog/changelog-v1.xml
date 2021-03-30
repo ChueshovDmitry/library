@@ -7,7 +7,7 @@
                    http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-1">
+    <changeSet author="Chueshov Dmitry" id="1">
         <createTable tableName="author">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -17,7 +17,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-2">
+    <changeSet author="Chueshov Dmitry" id="2">
         <createTable tableName="book">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -37,7 +37,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-3">
+    <changeSet author="Chueshov Dmitry" id="3">
         <createTable tableName="book_authors">
             <column name="book_id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -48,7 +48,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-4">
+    <changeSet author="Chueshov Dmitry" id="4">
         <createTable tableName="registration_book">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -62,7 +62,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-5">
+    <changeSet author="Chueshov Dmitry" id="5">
         <createTable tableName="rent">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -74,7 +74,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-6">
+    <changeSet author="Chueshov Dmitry" id="6">
         <createTable tableName="role">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -85,7 +85,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-7">
+    <changeSet author="Chueshov Dmitry" id="7">
         <createTable tableName="user">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -99,7 +99,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-8">
+    <changeSet author="Chueshov Dmitry" id="8">
         <createTable tableName="user_information">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -111,67 +111,67 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-9">
+    <changeSet author="Chueshov Dmitry" id="9">
         <createIndex indexName="FKc1viawp7dni224gmlcoj04gay" tableName="registration_book">
             <column name="book_id"/>
         </createIndex>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-10">
+    <changeSet author="Chueshov Dmitry" id="10">
         <createIndex indexName="FKfpiv0glwtg1a4q42jtyisb67u" tableName="user">
             <column name="user_information_id"/>
         </createIndex>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-11">
+    <changeSet author="Chueshov Dmitry" id="11">
         <createIndex indexName="FKg3q3j6lq13lh6qkjw2fpj2kdk" tableName="rent">
             <column name="user_id"/>
         </createIndex>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-12">
+    <changeSet author="Chueshov Dmitry" id="12">
         <createIndex indexName="FKl4hwxuxkum9wb1nsrcp8kl3jd" tableName="rent">
             <column name="registration_book_id"/>
         </createIndex>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-13">
+    <changeSet author="Chueshov Dmitry" id="13">
         <createIndex indexName="FKn82ha3ccdebhokx3a8fgdqeyy" tableName="user">
             <column name="role_id"/>
         </createIndex>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-14">
+    <changeSet author="Chueshov Dmitry" id="14">
         <createIndex indexName="FKs4xm7q8i3uxvaiswj1c35nnxw" tableName="book_authors">
             <column name="book_id"/>
         </createIndex>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-15">
+    <changeSet author="Chueshov Dmitry" id="15">
         <addForeignKeyConstraint baseColumnNames="authors_id" baseTableName="book_authors" constraintName="FK551i3sllw1wj7ex6nir16blsm" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="author" validate="true"/>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-16">
+    <changeSet author="Chueshov Dmitry" id="16">
         <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="registration_book" constraintName="FKc1viawp7dni224gmlcoj04gay" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="book" validate="true"/>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-17">
+    <changeSet author="Chueshov Dmitry" id="17">
         <addForeignKeyConstraint baseColumnNames="user_information_id" baseTableName="user" constraintName="FKfpiv0glwtg1a4q42jtyisb67u" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="user_information" validate="true"/>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-18">
+    <changeSet author="Chueshov Dmitry" id="18">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="rent" constraintName="FKg3q3j6lq13lh6qkjw2fpj2kdk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="user" validate="true"/>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-19">
+    <changeSet author="Chueshov Dmitry" id="19">
         <addForeignKeyConstraint baseColumnNames="registration_book_id" baseTableName="rent" constraintName="FKl4hwxuxkum9wb1nsrcp8kl3jd" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="registration_book" validate="true"/>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-20">
+    <changeSet author="Chueshov Dmitry" id="20">
         <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user" constraintName="FKn82ha3ccdebhokx3a8fgdqeyy" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="role" validate="true"/>
     </changeSet>
 
-    <changeSet author="Chueshov Dmitry" id="1617093376356-21">
+    <changeSet author="Chueshov Dmitry" id="21">
         <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="book_authors" constraintName="FKs4xm7q8i3uxvaiswj1c35nnxw" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="book" validate="true"/>
     </changeSet>
 
