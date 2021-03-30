@@ -1,36 +1,178 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<databaseChangeLog
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-
-    <changeSet id="1" author="Dickson the developer">
-        <addColumn schemaName="liquibase"
-                   tableName="students">
-            <column name="address" type="varchar(255)" />
-        </addColumn>
-    </changeSet>
-    <changeSet id="2" author="Dickson the developer">
-        <addColumn schemaName="liquibase"
-                   tableName="students">
-            <column name="level" type="varchar(255)" />
-        </addColumn>
-    </changeSet>
-    <changeSet author="dickson-the-developer" id="6">
-        <delete schemaName="liquibase"
-                tableName="students">
-            <where>name='Matthew'</where>
-        </delete>
-    </changeSet>
-    <changeSet author="dickson-the-developer" id="8">
-        <createTable
-                schemaName="liquibase"
-                tableName="car"
-                tablespace="A String">
-            <column name="number-plate" type="varchar(255)"/>
+    <changeSet author="Chueshov Dmitry" id="1617093376356-1">
+        <createTable tableName="author">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="initials" type="VARCHAR(5)"/>
+            <column name="surname" type="VARCHAR(40)"/>
         </createTable>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-2">
+        <createTable tableName="book">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="isbn" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pages" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="publishing_house" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-3">
+        <createTable tableName="book_authors">
+            <column name="book_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="authors_id" type="BIGINT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-4">
+        <createTable tableName="registration_book">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="account_number" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="registration_date" type="datetime"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="book_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-5">
+        <createTable tableName="rent">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="fact_rent_date" type="datetime"/>
+            <column name="planned_date_return" type="datetime"/>
+            <column name="registration_book_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-6">
+        <createTable tableName="role">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(20)">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-7">
+        <createTable tableName="user">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="login" type="VARCHAR(255)">
+                <constraints unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(200)"/>
+            <column name="role_id" type="BIGINT"/>
+            <column name="user_information_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-8">
+        <createTable tableName="user_information">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="email" type="VARCHAR(30)"/>
+            <column name="first_name" type="VARCHAR(50)"/>
+            <column name="last_name" type="VARCHAR(50)"/>
+            <column name="telephone" type="VARCHAR(50)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-9">
+        <createIndex indexName="FKc1viawp7dni224gmlcoj04gay" tableName="registration_book">
+            <column name="book_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-10">
+        <createIndex indexName="FKfpiv0glwtg1a4q42jtyisb67u" tableName="user">
+            <column name="user_information_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-11">
+        <createIndex indexName="FKg3q3j6lq13lh6qkjw2fpj2kdk" tableName="rent">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-12">
+        <createIndex indexName="FKl4hwxuxkum9wb1nsrcp8kl3jd" tableName="rent">
+            <column name="registration_book_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-13">
+        <createIndex indexName="FKn82ha3ccdebhokx3a8fgdqeyy" tableName="user">
+            <column name="role_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-14">
+        <createIndex indexName="FKs4xm7q8i3uxvaiswj1c35nnxw" tableName="book_authors">
+            <column name="book_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-15">
+        <addForeignKeyConstraint baseColumnNames="authors_id" baseTableName="book_authors" constraintName="FK551i3sllw1wj7ex6nir16blsm" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="author" validate="true"/>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-16">
+        <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="registration_book" constraintName="FKc1viawp7dni224gmlcoj04gay" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="book" validate="true"/>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-17">
+        <addForeignKeyConstraint baseColumnNames="user_information_id" baseTableName="user" constraintName="FKfpiv0glwtg1a4q42jtyisb67u" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="user_information" validate="true"/>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-18">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="rent" constraintName="FKg3q3j6lq13lh6qkjw2fpj2kdk" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-19">
+        <addForeignKeyConstraint baseColumnNames="registration_book_id" baseTableName="rent" constraintName="FKl4hwxuxkum9wb1nsrcp8kl3jd" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="registration_book" validate="true"/>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-20">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user" constraintName="FKn82ha3ccdebhokx3a8fgdqeyy" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="role" validate="true"/>
+    </changeSet>
+
+    <changeSet author="Chueshov Dmitry" id="1617093376356-21">
+        <addForeignKeyConstraint baseColumnNames="book_id" baseTableName="book_authors" constraintName="FKs4xm7q8i3uxvaiswj1c35nnxw" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="book" validate="true"/>
     </changeSet>
 
 </databaseChangeLog>
