@@ -1,5 +1,7 @@
 package com.senla.library.entity;
 import lombok.Data;
+import org.springframework.beans.factory.config.BeanDefinition;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -14,6 +16,7 @@ import java.util.HashSet;
 @Table
 public class Author implements Serializable {
     
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,4 +26,5 @@ public class Author implements Serializable {
     
     @Column(length = 5)
     private String initials;
+    
 }
