@@ -11,7 +11,8 @@
 
     <groupId>com.senla.trainining</groupId>
     <artifactId>security</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
+    <packaging>jar</packaging>
     <dependencies>
 
         <dependency>
@@ -35,8 +36,6 @@
             <artifactId>dao</artifactId>
             <version>0.0.1</version>
         </dependency>
-
-
     </dependencies>
 
 </project>

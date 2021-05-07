@@ -7,9 +7,10 @@
         <groupId>com.senla.training</groupId>
         <version>0.0.1</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <artifactId>application</artifactId>
 
@@ -24,21 +25,19 @@
                 </exclusion>
             </exclusions>
         </dependency>
+    
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>mysql</groupId>-->
-<!--            <artifactId>mysql-connector-java</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>com.senla.training</groupId>
             <artifactId>service</artifactId>
@@ -47,6 +46,17 @@
 
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.senla.library.Application</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>
